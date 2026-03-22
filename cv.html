@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV — Wabutrune Prosper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CV — Wabutrune Prosper
+       Même style noir & or que le portfolio
+       Imprimable via Ctrl+P
+    ============================================================ */
+    :root {
+      --or:       #C9A84C;
+      --or-clair: #e8c87a;
+      --bg:       #0a0a0a;
+      --bg2:      #0d0d0d;
+      --bg3:      #111;
+      --ligne:    #1a1a1a;
+      --txt:      #cccccc;
+      --txt2:     #888;
+      --txt3:     #555;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--txt); min-height: 100vh; }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-thumb { background: rgba(201,168,76,.3); border-radius: 2px; }
+
+    /* ── BARRE OUTILS ── */
+    .toolbar {
+      background: rgba(10,10,10,.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,.3);
+      padding: 10px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100; gap: 12px; flex-wrap: wrap;
+    }
+    .toolbar-left { display: flex; align-items: center; gap: 12px; }
+    .back-link {
+      display: flex; align-items: center; gap: 6px;
+      color: var(--txt3); font-size: 11px; text-decoration: none;
+      border: 1px solid #222; border-radius: 20px; padding: 5px 12px;
+      transition: all .2s;
+    }
+    .back-link:hover { border-color: var(--or); color: var(--or); }
+    .toolbar-title { color: var(--or); font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 2px; }
+
+    .toolbar-right { display: flex; align-items: center; gap: 10px; }
+
+    /* Sélecteur langue */
+    .lang-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--bg2); border: 1px solid rgba(201,168,76,.3);
+      border-radius: 20px; padding: 5px 12px; cursor: pointer;
+      transition: all .2s; position: relative; user-select: none;
+    }
+    .lang-btn:hover { border-color: var(--or); }
+    .lang-current { color: var(--or); font-size: 11px; font-weight: 500; min-width: 42px; }
+    .lang-arrow { color: var(--txt3); font-size: 9px; transition: transform .2s; }
+    .lang-btn.open .lang-arrow { transform: rotate(180deg); }
+    .lang-dropdown {
+      position: absolute; top: calc(100% + 8px); right: 0;
+      background: var(--bg2); border: 1px solid rgba(201,168,76,.25);
+      border-radius: 12px; padding: 6px; min-width: 165px; z-index: 200;
+      display: none; box-shadow: 0 8px 32px rgba(0,0,0,.7);
+    }
+    .lang-btn.open .lang-dropdown { display: block; animation: fadeD .15s ease; }
+    @keyframes fadeD { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    .lang-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 8px; cursor: pointer; transition: background .15s; font-size: 11px; color: var(--txt2); }
+    .lang-item:hover { background: #15150a; color: var(--txt); }
+    .lang-item.active { background: #0f0f05; color: var(--or); }
+    .lang-item .lcode { color: var(--txt3); font-size: 10px; margin-left: auto; }
+    .lang-divider { height: .5px; background: var(--ligne); margin: 4px 0; }
+
+    /* Bouton imprimer */
+    .print-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--or); color: var(--bg);
+      border: none; border-radius: 20px; padding: 6px 14px;
+      font-size: 11px; font-weight: 500; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: background .2s;
+    }
+    .print-btn:hover { background: var(--or-clair); }
+
+    /* Barre de traduction */
+    .trans-bar {
+      display: none; background: #0a0a05;
+      border-bottom: 1px solid rgba(201,168,76,.2);
+      padding: 6px 20px; font-size: 11px; color: var(--txt3);
+      align-items: center; gap: 8px; justify-content: center;
+    }
+    .trans-bar.show { display: flex; }
+    .trans-spinner { width: 12px; height: 12px; border: 1.5px solid rgba(201,168,76,.2); border-top-color: var(--or); border-radius: 50%; animation: spin .6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── CONTENU CV ── */
+    .cv-wrap {
+      max-width: 900px; margin: 0 auto;
+      padding: 40px 28px 60px;
+    }
+
+    /* En-tête */
+    .cv-header {
+      display: flex; align-items: center; gap: 28px;
+      padding-bottom: 28px; border-bottom: 1px solid rgba(201,168,76,.3);
+      margin-bottom: 32px;
+    }
+    .cv-avatar {
+      width: 90px; height: 90px; border-radius: 50%;
+      border: 2px solid var(--or); overflow: hidden;
+      background: var(--bg3); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cv-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .cv-avatar .ini { color: var(--or); font-size: 22px; font-weight: 500; }
+    .cv-name { font-family: 'Cinzel', serif; font-size: 28px; font-weight: 500; color: #f0f0f0; letter-spacing: 2px; margin-bottom: 4px; }
+    .cv-title { color: var(--or); font-size: 12px; letter-spacing: 1px; margin-bottom: 12px; }
+    .cv-contacts { display: flex; flex-wrap: wrap; gap: 14px; }
+    .cv-contact { display: flex; align-items: center; gap: 6px; color: var(--txt2); font-size: 11px; }
+    .cv-contact svg { width: 11px; height: 11px; fill: var(--or); flex-shrink: 0; }
+
+    /* Sections */
+    .cv-section { margin-bottom: 28px; }
+    .cv-section-title {
+      color: var(--or); font-size: 10px; letter-spacing: 3px;
+      text-transform: uppercase; margin-bottom: 14px;
+      padding-bottom: 7px; border-bottom: .5px solid rgba(201,168,76,.2);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .cv-section-title::before { content: ''; width: 24px; height: 1px; background: var(--or); }
+
+    /* Expériences */
+    .cv-item { display: flex; gap: 16px; margin-bottom: 16px; }
+    .cv-item-left { width: 130px; flex-shrink: 0; }
+    .cv-item-date { color: var(--or); font-size: 10px; line-height: 1.5; }
+    .cv-item-loc  { color: var(--txt3); font-size: 10px; }
+    .cv-item-right { flex: 1; }
+    .cv-item-company { color: #f0f0f0; font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+    .cv-item-role { color: var(--txt); font-size: 12px; margin-bottom: 4px; }
+    .cv-item-desc { color: var(--txt3); font-size: 11px; line-height: 1.65; }
+    .cv-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+    .cv-tag { background: #0f0f05; border: 1px solid rgba(201,168,76,.15); border-radius: 3px; color: var(--or); font-size: 9px; padding: 2px 6px; }
+    .cv-tag.mil { background: #0a050f; border-color: rgba(85,51,136,.2); color: #9966cc; }
+
+    /* Séparateur entre items */
+    .cv-item + .cv-item { border-top: .5px solid #111; padding-top: 14px; }
+
+    /* Grille compétences */
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .skill-cat { background: var(--bg2); border: .5px solid var(--ligne); border-radius: 6px; padding: 14px; }
+    .skill-cat-title { color: var(--or); font-size: 10px; letter-spacing: 1px; margin-bottom: 10px; }
+    .skill-bar { margin-bottom: 7px; }
+    .skill-name { color: var(--txt2); font-size: 11px; margin-bottom: 3px; display: flex; justify-content: space-between; }
+    .skill-name span { color: var(--txt3); font-size: 10px; }
+    .skill-bg { background: #151515; height: 3px; border-radius: 2px; }
+    .skill-fill { background: linear-gradient(90deg, var(--or), var(--or-clair)); height: 3px; border-radius: 2px; }
+    .skill-fill.lrn { background: linear-gradient(90deg, rgba(201,168,76,.2), var(--or)); }
+
+    /* Permis */
+    .permits-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+    .permit { background: var(--bg2); border: 1px solid rgba(201,168,76,.2); border-radius: 6px; padding: 10px; text-align: center; }
+    .permit-name { color: var(--or); font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+    .permit-desc { color: var(--txt3); font-size: 10px; line-height: 1.4; }
+    .permit-year { color: #2a2a2a; font-size: 9px; margin-top: 4px; }
+
+    /* Infos perso */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .info-item { background: var(--bg2); border: .5px solid var(--ligne); border-radius: 6px; padding: 10px 14px; }
+    .info-label { color: var(--txt3); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+    .info-val   { color: var(--txt); font-size: 12px; }
+
+    /* Langues */
+    .lang-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+    .lang-badge { background: var(--bg2); border: 1px solid rgba(201,168,76,.2); border-radius: 6px; padding: 10px 16px; text-align: center; }
+    .lang-name  { color: var(--txt); font-size: 12px; font-weight: 500; margin-bottom: 2px; }
+    .lang-level { color: var(--or); font-size: 10px; }
+
+    /* ── IMPRESSION ── */
+    @media print {
+      body { background: #fff !important; color: #111 !important; }
+      .toolbar, .trans-bar { display: none !important; }
+      .cv-wrap { padding: 20px; max-width: 100%; }
+      :root {
+        --bg: #fff; --bg2: #f5f5f5; --bg3: #eee;
+        --txt: #111; --txt2: #444; --txt3: #777;
+        --ligne: #ddd; --or: #8B6914; --or-clair: #b8891c;
+      }
+      .cv-header { border-bottom-color: #8B6914; }
+      .cv-section-title { color: #8B6914; border-bottom-color: #ccc; }
+      .cv-tag { border-color: #ccc; color: #8B6914; background: #fffef0; }
+      .skill-fill { background: #8B6914 !important; }
+      .permit { border-color: #ccc; background: #f9f9f9; }
+      .permit-name { color: #8B6914; }
+      .skill-cat { background: #f9f9f9; border-color: #ddd; }
+      .info-item { background: #f9f9f9; }
+      .lang-badge { background: #f9f9f9; border-color: #ccc; }
+      .cv-contact svg { fill: #8B6914; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .cv-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .permits-grid { grid-template-columns: repeat(2,1fr); }
+      .info-grid { grid-template-columns: 1fr; }
+      .cv-item { flex-direction: column; gap: 4px; }
+      .cv-item-left { width: 100%; }
+      .toolbar { padding: 8px 14px; }
+      .cv-wrap { padding: 20px 14px 40px; }
+    }
+
+    /* RTL */
+    [dir="rtl"] .cv-header { flex-direction: row-reverse; }
+    [dir="rtl"] .cv-item  { flex-direction: row-reverse; }
+    [dir="rtl"] .cv-section-title::before { margin-left: 0; margin-right: 0; }
+  </style>
+</head>
+<body>
+
+<!-- BARRE OUTILS -->
+<div class="toolbar">
+  <div class="toolbar-left">
+    <a href="index.html" class="back-link">← <span data-i18n="back">Retour au portfolio</span></a>
+    <span class="toolbar-title" data-i18n="cv_title">Curriculum Vitae</span>
+  </div>
+  <div class="toolbar-right">
+    <!-- Sélecteur langue -->
+    <div class="lang-btn" id="langBtn" onclick="toggleLang()">
+      <span>🌐</span>
+      <span class="lang-current" id="langCurrent">🇫🇷 FR</span>
+      <span class="lang-arrow">▾</span>
+      <div class="lang-dropdown" id="langDropdown">
+        <div class="lang-item active" onclick="setLang('fr',this)">🇫🇷 Français <span class="lcode">FR</span></div>
+        <div class="lang-item" onclick="setLang('en',this)">🇬🇧 English <span class="lcode">EN</span></div>
+        <div class="lang-item" onclick="setLang('de',this)">🇩🇪 Deutsch <span class="lcode">DE</span></div>
+        <div class="lang-item" onclick="setLang('es',this)">🇪🇸 Español <span class="lcode">ES</span></div>
+        <div class="lang-divider"></div>
+        <div class="lang-item" onclick="setLang('zh',this)">🇨🇳 中文 <span class="lcode">ZH</span></div>
+        <div class="lang-item" onclick="setLang('ar',this)">🇸🇦 العربية <span class="lcode">AR</span></div>
+        <div class="lang-item" onclick="setLang('ru',this)">🇷🇺 Русский <span class="lcode">RU</span></div>
+      </div>
+    </div>
+    <!-- Bouton imprimer / télécharger PDF -->
+    <button class="print-btn" onclick="window.print()">
+      🖨 <span data-i18n="print_btn">Imprimer / PDF</span>
+    </button>
+  </div>
+</div>
+
+<!-- Barre traduction -->
+<div class="trans-bar" id="transBar">
+  <div class="trans-spinner"></div>
+  <span data-i18n="translating">Traduction en cours…</span>
+</div>
+
+<!-- ============================================================
+     CONTENU DU CV
+============================================================ -->
+<div class="cv-wrap">
+
+  <!-- EN-TÊTE -->
+  <div class="cv-header">
+    <div class="cv-avatar">
+      <!-- ── Remplacez par votre vraie photo ── -->
+      <img src="photo1.jpg" onerror="this.outerHTML='<span class=ini>WP</span>'" alt="Wabutrune Prosper">
+    </div>
+    <div>
+      <div class="cv-name">Wabutrune Prosper</div>
+      <div class="cv-title" data-i18n="cv_subtitle">Chauffeur de bus · Super poids lourd · Développeur web en apprentissage</div>
+      <div class="cv-contacts">
+        <div class="cv-contact"><svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>wabutrune.p@hotmail.com</div>
+        <div class="cv-contact"><svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>+33 7 82 22 61 99</div>
+        <div class="cv-contact"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 119.5 9 2.5 2.5 0 0112 11.5z"/></svg>Köln, Allemagne</div>
+        <div class="cv-contact"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span data-i18n="cv_nationality">Français · Né en Nouvelle-Calédonie</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFIL -->
+  <div class="cv-section">
+    <div class="cv-section-title" data-i18n="cv_profile_title">Profil</div>
+    <p style="color:var(--txt2);font-size:12px;line-height:1.8;" data-i18n="cv_profile">
+      Professionnel polyvalent avec 23 ans de service dans l'Armée de Terre française, spécialisé dans la conduite de véhicules militaires et la logistique opérationnelle. Reconverti avec succès dans le transport de personnes en Europe (France, Allemagne). Actuellement en formation développement web. Rigueur, discipline et adaptabilité au cœur de ma démarche professionnelle.
+    </p>
+  </div>
+
+  <!-- EXPÉRIENCES PROFESSIONNELLES -->
+  <div class="cv-section">
+    <div class="cv-section-title" data-i18n="cv_exp_title">Expériences professionnelles</div>
+
+    <!-- Transport personnes -->
+    <div style="margin-bottom:10px">
+      <div style="color:var(--or);font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px" data-i18n="cv_cat_pax">🚌 Transport de personnes</div>
+
+      <div class="cv-item">
+        <div class="cv-item-left"><div class="cv-item-date">01/2026 → <span data-i18n="cv_today">aujourd'hui</span></div><div class="cv-item-loc">Leverkusen, DE</div></div>
+        <div class="cv-item-right">
+          <div class="cv-item-company">Deutsche Bahn</div>
+          <div class="cv-item-role" data-i18n="cv_role_bus">Chauffeur de bus urbain</div>
+          <div class="cv-item-tags"><span class="cv-tag">Permis D</span><span class="cv-tag">FCO</span><span class="cv-tag">Allemagne</span></div>
+        </div>
+      </div>
+
+      <div class="cv-item">
+        <div class="cv-item-left"><div class="cv-item-date">09/2025 – 11/2025</div><div class="cv-item-loc">Brieselang, DE</div></div>
+        <div class="cv-item-right">
+          <div class="cv-item-company">Deutsche Bahn</div>
+          <div class="cv-item-role" data-i18n="cv_role_bus">Chauffeur de bus urbain</div>
+          <div class="cv-item-tags"><span class="cv-tag">Permis D</span><span class="cv-tag">Allemagne</span></div>
+        </div>
+      </div>
+
+      <div class="cv-item">
+        <div class="cv-item-left"><div class="cv-item-date">06/2025 – 08/2025</div><div class="cv-item-loc">Berlin–Hambourg, DE</div></div>
+        <div class="cv-item-right">
+          <div class="cv-item-company">ÉcoVista</div>
+          <div class="cv-item-role" data-i18n="cv_role_urban">Transport urbain — Bus articulé 18m</div>
+          <div class="cv-item-tags"><span class="cv-tag">Bus articulé</span><span class="cv-tag">Allemagne</span></div>
+        </div>
+      </div>
+
+      <div class="cv-item">
+        <div class="cv-item-left"><div class="cv-item-date">12/2024 – 04/2025</div><div class="cv-item-loc">Méribel, FR</div></div>
+        <div class="cv-item-right">
+          <div class="cv-item-company">Transdev Savoie</div>
+          <div class="cv-item-role" data-i18n="cv_role_urban2">Conducteur transport urbain</div>
+          <div class="cv-item-tags"><span class="cv-tag">Permis D</span><span class="cv-tag">Savoie</span></div>
+        </div>
+      </div>
+
+      <div class="cv-item">
+        <div class="cv-item-left"><div class="cv-item-date">05/2024 – 07/2024</div><div class="cv-item-loc">Ain, FR</div></div>
+        <div class="cv-item-right">
+          <div class="cv-item-company">Transport de l'Ain</div>
+          <div class="cv-item-role" data-i18n="cv_role_school">Conducteur de car scolaire</div>
+          <div class="cv-item-tags"><span class="cv-tag">Permis D</span><span class="cv-tag">Scolaire</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transport marchandise -->
+    <div style="margin-bottom:10px;margin-top:18px">
+      <div style="color:var(--or);font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px" data-i18n="cv_cat_freight">🚛 Transport de marchandise</div>
+
+      <div class="cv-item">
+        <div class="cv-item-left"><div class="cv-item-date">12/2019 – 02/2020</div><div class="cv-item-loc">Canada</div></div>
+        <div class="cv-item-right">
+          <div class="cv-item-company">XTL Transport</div>
+          <div class="cv-item-role" data-i18n="cv_role_canada">Chauffeur SPL canadien — Semi-truck</div>
+          <div class="cv-item-desc" data-i18n="cv_desc_canada">Conduite de semi-truck nord-américain, permis Classe 1 canadien.</div>
+          <div class="cv-item-tags"><span class="cv-tag">Classe 1</span><span class="cv-tag">Semi-truck</span><span class="cv-tag">🇨🇦 Canada</span></div>
+        </div>
+      </div>
+
+      <div class="cv-item">
+        <div class="cv-item-left"><div class="cv-item-date">2019 – 2021</div><div class="cv-item-loc">Savoie, FR</div></div>
+        <div class="cv-item-right">
+          <div class="cv-item-company">Transport de Savoie · BIO LAIT · LACTOCOL · DIFCO</div>
+          <div class="cv-item-role" data-i18n="cv_role_freight">Chauffeur SPL — Supply Chain & collecte</div>
+          <div class="cv-item-desc" data-i18n="cv_desc_freight">Bâché, plateau, conteneur, citerne laitière, tire palette, ampli-roll.</div>
+          <div class="cv-item-tags"><span class="cv-tag">Permis CE</span><span class="cv-tag">Supply Chain</span><span class="cv-tag">Citerne</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Militaire -->
+    <div style="margin-top:18px">
+      <div style="color:var(--or);font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px" data-i18n="cv_cat_mil">🪖 Service militaire</div>
+      <div class="cv-item">
+        <div class="cv-item-left"><div class="cv-item-date">05/1995 – 07/2018</div><div class="cv-item-loc">France & OPEX</div></div>
+        <div class="cv-item-right">
+          <div class="cv-item-company" data-i18n="cv_army">Armée de Terre Française</div>
+          <div class="cv-item-role" data-i18n="cv_army_role">Pilote VBL · Aide moniteur · Chef de groupe</div>
+          <div class="cv-item-desc" data-i18n="cv_army_desc">23 ans de service. Pilote de véhicules blindés légers (VBL), aide moniteur auto-école militaire VL/PL/SPL. Management d'équipe, logistique opérationnelle. Projections OPEX : Afghanistan, Afrique, Balkans, DOM-COM.</div>
+          <div class="cv-item-tags">
+            <span class="cv-tag mil">VBL</span><span class="cv-tag mil">VAB</span><span class="cv-tag mil">TRM</span>
+            <span class="cv-tag mil">GBC 180</span><span class="cv-tag mil">OPEX</span><span class="cv-tag mil">Management</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMATION -->
+  <div class="cv-section">
+    <div class="cv-section-title" data-i18n="cv_edu_title">Formation</div>
+    <div class="cv-item">
+      <div class="cv-item-left"><div class="cv-item-date">2021 – 2023</div><div class="cv-item-loc">France</div></div>
+      <div class="cv-item-right">
+        <div class="cv-item-company">IFPA</div>
+        <div class="cv-item-role" data-i18n="cv_edu_web">Formation Développeur Web & Web Mobile</div>
+        <div class="cv-item-tags"><span class="cv-tag">HTML5</span><span class="cv-tag">CSS3</span><span class="cv-tag">JavaScript</span><span class="cv-tag">PHP</span><span class="cv-tag">Symfony</span><span class="cv-tag">Git</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPÉTENCES -->
+  <div class="cv-section">
+    <div class="cv-section-title" data-i18n="cv_skills_title">Compétences</div>
+    <div class="skills-grid">
+      <div class="skill-cat">
+        <div class="skill-cat-title" data-i18n="cv_sk_transport">🚌 Transport</div>
+        <div class="skill-bar"><div class="skill-name"><span data-i18n="cv_sk_urban">Transport urbain</span><span data-i18n="lvl_expert">Expert</span></div><div class="skill-bg"><div class="skill-fill" style="width:95%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><span>PL / SPL</span><span data-i18n="lvl_expert">Expert</span></div><div class="skill-bg"><div class="skill-fill" style="width:90%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><span data-i18n="cv_sk_supply">Supply Chain</span><span data-i18n="lvl_ok">Confirmé</span></div><div class="skill-bg"><div class="skill-fill" style="width:85%"></div></div></div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title" data-i18n="cv_sk_mil">🪖 Militaire</div>
+        <div class="skill-bar"><div class="skill-name"><span data-i18n="cv_sk_armor">Véhicules blindés</span><span data-i18n="lvl_expert">Expert</span></div><div class="skill-bg"><div class="skill-fill" style="width:90%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><span data-i18n="cv_sk_mgmt">Management</span><span data-i18n="lvl_ok">Confirmé</span></div><div class="skill-bg"><div class="skill-fill" style="width:82%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><span data-i18n="cv_sk_log">Logistique</span><span data-i18n="lvl_ok">Confirmé</span></div><div class="skill-bg"><div class="skill-fill" style="width:85%"></div></div></div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title" data-i18n="cv_sk_web">💻 Web</div>
+        <div class="skill-bar"><div class="skill-name"><span>HTML / CSS</span><span data-i18n="cv_ongoing">En cours</span></div><div class="skill-bg"><div class="skill-fill lrn" style="width:60%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><span>PHP / Symfony</span><span data-i18n="cv_ongoing">En cours</span></div><div class="skill-bg"><div class="skill-fill lrn" style="width:40%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><span>JavaScript</span><span data-i18n="cv_ongoing">En cours</span></div><div class="skill-bg"><div class="skill-fill lrn" style="width:35%"></div></div></div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title" data-i18n="cv_sk_other">🌍 Autres</div>
+        <div class="skill-bar"><div class="skill-name"><span data-i18n="cv_sk_photo">Photographie</span><span data-i18n="lvl_ok">Confirmé</span></div><div class="skill-bg"><div class="skill-fill" style="width:75%"></div></div></div>
+        <div class="skill-bar"><div class="skill-name"><span data-i18n="cv_sk_drive">Conduite tout terrain</span><span data-i18n="lvl_expert">Expert</span></div><div class="skill-bg"><div class="skill-fill" style="width:95%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERMIS -->
+  <div class="cv-section">
+    <div class="cv-section-title" data-i18n="cv_permits_title">Permis & certifications</div>
+    <div class="permits-grid">
+      <div class="permit"><div class="permit-name">D</div><div class="permit-desc" data-i18n="lic_d">Bus & transport</div><div class="permit-year">2018</div></div>
+      <div class="permit"><div class="permit-name">CE</div><div class="permit-desc" data-i18n="lic_ce">Super poids lourd</div><div class="permit-year">2006</div></div>
+      <div class="permit"><div class="permit-name">C</div><div class="permit-desc" data-i18n="lic_c">Poids lourd</div><div class="permit-year">1998</div></div>
+      <div class="permit"><div class="permit-name">FCO</div><div class="permit-desc" data-i18n="lic_fco">FIMO Personnel & Marchandise</div><div class="permit-year">2024</div></div>
+      <div class="permit"><div class="permit-name">CL.1</div><div class="permit-desc" data-i18n="lic_cl1">SPL Canadien</div><div class="permit-year">2020</div></div>
+      <div class="permit"><div class="permit-name">CAR.</div><div class="permit-desc" data-i18n="lic_car">Cariste 6T</div><div class="permit-year">2005</div></div>
+      <div class="permit"><div class="permit-name">VBL</div><div class="permit-desc" data-i18n="lic_vbl">Pilote blindé léger</div><div class="permit-year">1998</div></div>
+      <div class="permit"><div class="permit-name">MONIT.</div><div class="permit-desc" data-i18n="lic_mon">Aide moniteur</div><div class="permit-year">2004</div></div>
+    </div>
+  </div>
+
+  <!-- LANGUES -->
+  <div class="cv-section">
+    <div class="cv-section-title" data-i18n="cv_lang_title">Langues</div>
+    <div class="lang-grid">
+      <div class="lang-badge"><div class="lang-name">🇫🇷 Français</div><div class="lang-level">B2 — <span data-i18n="cv_lang_b2">Courant</span></div></div>
+      <div class="lang-badge"><div class="lang-name">🇬🇧 Anglais</div><div class="lang-level">A2 — <span data-i18n="cv_lang_a2">Notions</span></div></div>
+      <div class="lang-badge"><div class="lang-name">🇩🇪 Allemand</div><div class="lang-level"><span data-i18n="cv_lang_de">Débutant — vie quotidienne</span></div></div>
+    </div>
+  </div>
+
+  <!-- INFOS PERSONNELLES -->
+  <div class="cv-section">
+    <div class="cv-section-title" data-i18n="cv_info_title">Informations personnelles</div>
+    <div class="info-grid">
+      <div class="info-item"><div class="info-label" data-i18n="cv_dob">Date de naissance</div><div class="info-val" data-i18n="cv_dob_val">Disponible sur demande</div></div>
+      <div class="info-item"><div class="info-label" data-i18n="cv_nationality_lbl">Nationalité</div><div class="info-val" data-i18n="cv_nat_val">Française — Nouvelle-Calédonie</div></div>
+      <div class="info-item"><div class="info-label" data-i18n="cv_location">Localisation</div><div class="info-val">Köln (Cologne), Allemagne</div></div>
+      <div class="info-item"><div class="info-label" data-i18n="cv_interests">Centres d'intérêt</div><div class="info-val" data-i18n="cv_interests_val">Voyage · Safari · Randonnée · Photographie</div></div>
+    </div>
+  </div>
+
+</div><!-- fin cv-wrap -->
+
+<script>
+/* ============================================================
+   TRADUCTIONS CV — 7 langues
+============================================================ */
+const I18N = {
+  fr:{ back:"Retour au portfolio", cv_title:"Curriculum Vitae", print_btn:"Imprimer / PDF", translating:"Traduction en cours…", cv_subtitle:"Chauffeur de bus · Super poids lourd · Développeur web en apprentissage", cv_nationality:"Français · Né en Nouvelle-Calédonie", cv_profile_title:"Profil", cv_profile:"Professionnel polyvalent avec 23 ans de service dans l'Armée de Terre française, spécialisé dans la conduite de véhicules militaires et la logistique opérationnelle. Reconverti avec succès dans le transport de personnes en Europe. Actuellement en formation développement web. Rigueur, discipline et adaptabilité.", cv_exp_title:"Expériences professionnelles", cv_today:"aujourd'hui", cv_cat_pax:"🚌 Transport de personnes", cv_cat_freight:"🚛 Transport de marchandise", cv_cat_mil:"🪖 Service militaire", cv_role_bus:"Chauffeur de bus urbain", cv_role_urban:"Transport urbain — Bus articulé 18m", cv_role_urban2:"Conducteur transport urbain", cv_role_school:"Conducteur de car scolaire", cv_role_canada:"Chauffeur SPL canadien — Semi-truck", cv_desc_canada:"Conduite de semi-truck nord-américain, permis Classe 1 canadien.", cv_role_freight:"Chauffeur SPL — Supply Chain & collecte", cv_desc_freight:"Bâché, plateau, conteneur, citerne laitière, tire palette, ampli-roll.", cv_army:"Armée de Terre Française", cv_army_role:"Pilote VBL · Aide moniteur · Chef de groupe", cv_army_desc:"23 ans de service. Pilote de véhicules blindés légers, aide moniteur auto-école militaire. Management d'équipe, logistique opérationnelle. Projections OPEX : Afghanistan, Afrique, Balkans, DOM-COM.", cv_edu_title:"Formation", cv_edu_web:"Formation Développeur Web & Web Mobile", cv_skills_title:"Compétences", cv_sk_transport:"🚌 Transport", cv_sk_urban:"Transport urbain", cv_sk_supply:"Supply Chain", cv_sk_mil:"🪖 Militaire", cv_sk_armor:"Véhicules blindés", cv_sk_mgmt:"Management", cv_sk_log:"Logistique", cv_sk_web:"💻 Web", cv_ongoing:"En cours", cv_sk_other:"🌍 Autres", cv_sk_photo:"Photographie", cv_sk_drive:"Conduite tout terrain", cv_permits_title:"Permis & certifications", lic_d:"Bus & transport", lic_ce:"Super poids lourd", lic_c:"Poids lourd", lic_fco:"FIMO Personnel & Marchandise", lic_cl1:"SPL Canadien", lic_car:"Cariste 6T", lic_vbl:"Pilote blindé léger", lic_mon:"Aide moniteur", cv_lang_title:"Langues", cv_lang_b2:"Courant", cv_lang_a2:"Notions", cv_lang_de:"Débutant — vie quotidienne", cv_info_title:"Informations personnelles", cv_dob:"Date de naissance", cv_dob_val:"Disponible sur demande", cv_nationality_lbl:"Nationalité", cv_nat_val:"Française — Nouvelle-Calédonie", cv_location:"Localisation", cv_interests:"Centres d'intérêt", cv_interests_val:"Voyage · Safari · Randonnée · Photographie", lvl_expert:"Expert", lvl_ok:"Confirmé" },
+
+  en:{ back:"Back to portfolio", cv_title:"Curriculum Vitae", print_btn:"Print / PDF", translating:"Translating…", cv_subtitle:"Bus driver · Super heavy goods vehicle · Web developer in training", cv_nationality:"French · Born in New Caledonia", cv_profile_title:"Profile", cv_profile:"Versatile professional with 23 years of service in the French Army, specialized in military vehicle driving and operational logistics. Successfully transitioned to passenger transport in Europe. Currently training in web development. Discipline, rigor and adaptability.", cv_exp_title:"Professional Experience", cv_today:"today", cv_cat_pax:"🚌 Passenger transport", cv_cat_freight:"🚛 Freight transport", cv_cat_mil:"🪖 Military service", cv_role_bus:"Urban bus driver", cv_role_urban:"Urban transport — Articulated bus 18m", cv_role_urban2:"Urban transport driver", cv_role_school:"School bus driver", cv_role_canada:"Canadian SPV driver — Semi-truck", cv_desc_canada:"Driving North American semi-truck, Canadian Class 1 licence.", cv_role_freight:"SPV driver — Supply Chain & collection", cv_desc_freight:"Tarpaulin, flatbed, container, milk tanker, pallet truck, ampliroll.", cv_army:"French Army", cv_army_role:"Light Armored Vehicle Pilot · Driving Instructor · Team Leader", cv_army_desc:"23 years of service. Light armored vehicle pilot, military driving instructor. Team management, operational logistics. OPEX deployments: Afghanistan, Africa, Balkans, French overseas territories.", cv_edu_title:"Education", cv_edu_web:"Web & Mobile Developer Training", cv_skills_title:"Skills", cv_sk_transport:"🚌 Transport", cv_sk_urban:"Urban transport", cv_sk_supply:"Supply Chain", cv_sk_mil:"🪖 Military", cv_sk_armor:"Armored vehicles", cv_sk_mgmt:"Management", cv_sk_log:"Logistics", cv_sk_web:"💻 Web", cv_ongoing:"In progress", cv_sk_other:"🌍 Other", cv_sk_photo:"Photography", cv_sk_drive:"Off-road driving", cv_permits_title:"Licences & Certifications", lic_d:"Bus & public transport", lic_ce:"Super heavy goods", lic_c:"Heavy goods vehicle", lic_fco:"FIMO Passenger & Freight", lic_cl1:"Canadian SPV", lic_car:"6T Forklift", lic_vbl:"Light armored pilot", lic_mon:"Driving instructor", cv_lang_title:"Languages", cv_lang_b2:"Fluent", cv_lang_a2:"Basic", cv_lang_de:"Beginner — daily life", cv_info_title:"Personal Information", cv_dob:"Date of birth", cv_dob_val:"Available on request", cv_nationality_lbl:"Nationality", cv_nat_val:"French — New Caledonia", cv_location:"Location", cv_interests:"Interests", cv_interests_val:"Travel · Safari · Hiking · Photography", lvl_expert:"Expert", lvl_ok:"Proficient" },
+
+  de:{ back:"Zurück zum Portfolio", cv_title:"Lebenslauf", print_btn:"Drucken / PDF", translating:"Übersetzung läuft…", cv_subtitle:"Busfahrer · Schwertransport · Webentwickler in Ausbildung", cv_nationality:"Französisch · Geboren in Neukaledonien", cv_profile_title:"Profil", cv_profile:"Vielseitiger Fachmann mit 23 Jahren Dienst in der französischen Armee, spezialisiert auf Militärfahrzeuge und operative Logistik. Erfolgreich in den Personentransport in Europa gewechselt. Derzeit in der Webentwicklung tätig. Disziplin, Präzision und Anpassungsfähigkeit.", cv_exp_title:"Berufserfahrung", cv_today:"heute", cv_cat_pax:"🚌 Personentransport", cv_cat_freight:"🚛 Gütertransport", cv_cat_mil:"🪖 Militärdienst", cv_role_bus:"Stadtbusfahrer", cv_role_urban:"Stadtverkehr — Gelenkbus 18m", cv_role_urban2:"Stadtverkehrsfahrer", cv_role_school:"Schulbusfahrer", cv_role_canada:"Kanadischer SPV-Fahrer — Semi-truck", cv_desc_canada:"Fahren nordamerikanischer Semi-trucks, kanadischer Klasse-1-Führerschein.", cv_role_freight:"SPV-Fahrer — Lieferkette & Sammlung", cv_desc_freight:"Plane, Plateau, Container, Milchtanker, Hubwagen, Ampliroll.", cv_army:"Französische Armee", cv_army_role:"Leichter Panzerwagen-Pilot · Fahrlehrer · Gruppenführer", cv_army_desc:"23 Jahre Dienst. Pilot leichter Panzerfahrzeuge, militärischer Fahrlehrer. Teammanagement, operative Logistik. OPEX-Einsätze: Afghanistan, Afrika, Balkan, französische Überseegebiete.", cv_edu_title:"Ausbildung", cv_edu_web:"Web- & Mobile-Entwickler Ausbildung", cv_skills_title:"Kompetenzen", cv_sk_transport:"🚌 Transport", cv_sk_urban:"Stadtverkehr", cv_sk_supply:"Lieferkette", cv_sk_mil:"🪖 Militär", cv_sk_armor:"Gepanzerte Fahrzeuge", cv_sk_mgmt:"Management", cv_sk_log:"Logistik", cv_sk_web:"💻 Web", cv_ongoing:"In Ausbildung", cv_sk_other:"🌍 Sonstiges", cv_sk_photo:"Fotografie", cv_sk_drive:"Geländefahren", cv_permits_title:"Führerscheine & Zertifikate", lic_d:"Bus & ÖPNV", lic_ce:"Schwertransport", lic_c:"LKW", lic_fco:"FIMO Personen & Güter", lic_cl1:"Kanadischer SPV", lic_car:"6T Gabelstapler", lic_vbl:"Leichter Panzer", lic_mon:"Fahrlehrer", cv_lang_title:"Sprachen", cv_lang_b2:"Fließend", cv_lang_a2:"Grundkenntnisse", cv_lang_de:"Anfänger — Alltag", cv_info_title:"Persönliche Informationen", cv_dob:"Geburtsdatum", cv_dob_val:"Auf Anfrage erhältlich", cv_nationality_lbl:"Staatsangehörigkeit", cv_nat_val:"Französisch — Neukaledonien", cv_location:"Standort", cv_interests:"Interessen", cv_interests_val:"Reisen · Safari · Wandern · Fotografie", lvl_expert:"Experte", lvl_ok:"Fortgeschritten" },
+
+  es:{ back:"Volver al portfolio", cv_title:"Currículum Vitae", print_btn:"Imprimir / PDF", translating:"Traduciendo…", cv_subtitle:"Conductor de autobús · Transporte pesado · Desarrollador web en formación", cv_nationality:"Francés · Nacido en Nueva Caledonia", cv_profile_title:"Perfil", cv_profile:"Profesional versátil con 23 años de servicio en el Ejército francés, especializado en vehículos militares y logística operacional. Reconvertido con éxito en transporte de personas en Europa. Actualmente en formación de desarrollo web.", cv_exp_title:"Experiencia profesional", cv_today:"hoy", cv_cat_pax:"🚌 Transporte de personas", cv_cat_freight:"🚛 Transporte de mercancías", cv_cat_mil:"🪖 Servicio militar", cv_role_bus:"Conductor de autobús urbano", cv_role_urban:"Transporte urbano — Autobús articulado 18m", cv_role_urban2:"Conductor transporte urbano", cv_role_school:"Conductor de autobús escolar", cv_role_canada:"Conductor SPV canadiense — Semi-truck", cv_desc_canada:"Conducción de semi-truck norteamericano, licencia Clase 1 canadiense.", cv_role_freight:"Conductor SPV — Cadena de suministro", cv_desc_freight:"Lona, plataforma, contenedor, cisterna láctea, transpaleta, ampliroll.", cv_army:"Ejército de Tierra Francés", cv_army_role:"Piloto de vehículo blindado · Monitor de conducción · Jefe de grupo", cv_army_desc:"23 años de servicio. Piloto de vehículos blindados ligeros, monitor militar de conducción. Gestión de equipos, logística operacional. OPEX: Afganistán, África, Balcanes, territorios de ultramar.", cv_edu_title:"Formación", cv_edu_web:"Formación Desarrollador Web y Móvil", cv_skills_title:"Competencias", cv_sk_transport:"🚌 Transporte", cv_sk_urban:"Transporte urbano", cv_sk_supply:"Cadena de suministro", cv_sk_mil:"🪖 Militar", cv_sk_armor:"Vehículos blindados", cv_sk_mgmt:"Gestión", cv_sk_log:"Logística", cv_sk_web:"💻 Web", cv_ongoing:"En curso", cv_sk_other:"🌍 Otros", cv_sk_photo:"Fotografía", cv_sk_drive:"Conducción todo terreno", cv_permits_title:"Licencias y certificaciones", lic_d:"Autobús y transporte público", lic_ce:"Camión articulado", lic_c:"Vehículo pesado", lic_fco:"FIMO Personas y Mercancías", lic_cl1:"SPV Canadiense", lic_car:"Carretilla 6T", lic_vbl:"Piloto blindado", lic_mon:"Monitor conducción", cv_lang_title:"Idiomas", cv_lang_b2:"Fluido", cv_lang_a2:"Nociones", cv_lang_de:"Principiante — vida cotidiana", cv_info_title:"Información personal", cv_dob:"Fecha de nacimiento", cv_dob_val:"Disponible bajo petición", cv_nationality_lbl:"Nacionalidad", cv_nat_val:"Francesa — Nueva Caledonia", cv_location:"Ubicación", cv_interests:"Intereses", cv_interests_val:"Viajes · Safari · Senderismo · Fotografía", lvl_expert:"Experto", lvl_ok:"Confirmado" },
+
+  zh:{ back:"返回作品集", cv_title:"简历", print_btn:"打印 / PDF", translating:"翻译中…", cv_subtitle:"公交司机 · 重型运输 · 网页开发学员", cv_nationality:"法国人 · 出生于新喀里多尼亚", cv_profile_title:"个人简介", cv_profile:"在法国陆军服役23年的多才多艺的专业人士，专注于军用车辆驾驶和作战后勤。成功转型为欧洲客运司机。目前正在学习网页开发。纪律严明、严谨务实、适应性强。", cv_exp_title:"工作经历", cv_today:"至今", cv_cat_pax:"🚌 客运", cv_cat_freight:"🚛 货运", cv_cat_mil:"🪖 军事服务", cv_role_bus:"城市公交司机", cv_role_urban:"城市运输 — 铰接式公共汽车18m", cv_role_urban2:"城市运输司机", cv_role_school:"校车司机", cv_role_canada:"加拿大SPV司机 — 半挂车", cv_desc_canada:"驾驶北美半挂车，持加拿大1类驾照。", cv_role_freight:"SPV司机 — 供应链和收集", cv_desc_freight:"篷布、平板、集装箱、牛奶罐车、托盘车、ampliroll。", cv_army:"法国陆军", cv_army_role:"轻型装甲车驾驶员 · 驾驶教练 · 班长", cv_army_desc:"服役23年。轻型装甲车驾驶员，军事驾驶教练。团队管理，作战后勤。OPEX部署：阿富汗、非洲、巴尔干、法国海外领土。", cv_edu_title:"教育培训", cv_edu_web:"网页与移动开发培训", cv_skills_title:"技能", cv_sk_transport:"🚌 运输", cv_sk_urban:"城市运输", cv_sk_supply:"供应链", cv_sk_mil:"🪖 军事", cv_sk_armor:"装甲车辆", cv_sk_mgmt:"管理", cv_sk_log:"后勤", cv_sk_web:"💻 网页", cv_ongoing:"进行中", cv_sk_other:"🌍 其他", cv_sk_photo:"摄影", cv_sk_drive:"越野驾驶", cv_permits_title:"驾照与认证", lic_d:"公共汽车", lic_ce:"超重型货车", lic_c:"重型货车", lic_fco:"FIMO客货", lic_cl1:"加拿大SPV", lic_car:"6吨叉车", lic_vbl:"装甲车驾驶员", lic_mon:"驾驶教练", cv_lang_title:"语言", cv_lang_b2:"流利", cv_lang_a2:"基础", cv_lang_de:"初学者 — 日常生活", cv_info_title:"个人信息", cv_dob:"出生日期", cv_dob_val:"可按要求提供", cv_nationality_lbl:"国籍", cv_nat_val:"法国 — 新喀里多尼亚", cv_location:"所在地", cv_interests:"兴趣爱好", cv_interests_val:"旅行 · 狩猎旅行 · 徒步 · 摄影", lvl_expert:"专家", lvl_ok:"熟练" },
+
+  ar:{ back:"العودة إلى المحفظة", cv_title:"السيرة الذاتية", print_btn:"طباعة / PDF", translating:"جارٍ الترجمة…", cv_subtitle:"سائق حافلة · نقل ثقيل · مطور ويب في التدريب", cv_nationality:"فرنسي · مولود في كاليدونيا الجديدة", cv_profile_title:"الملف الشخصي", cv_profile:"محترف متعدد المواهب مع 23 عامًا من الخدمة في الجيش الفرنسي، متخصص في قيادة المركبات العسكرية واللوجستيات. تحول بنجاح إلى نقل الركاب في أوروبا. حاليًا في تدريب تطوير الويب.", cv_exp_title:"الخبرة المهنية", cv_today:"حتى الآن", cv_cat_pax:"🚌 نقل الركاب", cv_cat_freight:"🚛 نقل البضائع", cv_cat_mil:"🪖 الخدمة العسكرية", cv_role_bus:"سائق حافلة حضرية", cv_role_urban:"نقل حضري — حافلة مفصلية 18م", cv_role_urban2:"سائق نقل حضري", cv_role_school:"سائق حافلة مدرسية", cv_role_canada:"سائق SPV كندي — شاحنة نصف مقطورة", cv_desc_canada:"قيادة شاحنة نصف مقطورة أمريكية الشمال، رخصة كندية الفئة 1.", cv_role_freight:"سائق SPV — سلسلة الإمداد", cv_desc_freight:"مشمّع، منصة، حاوية، صهريج حليب، طارة، ampliroll.", cv_army:"الجيش الفرنسي البري", cv_army_role:"قائد مركبة مدرعة خفيفة · مدرب قيادة · قائد مجموعة", cv_army_desc:"23 عامًا من الخدمة. قائد مركبات مدرعة خفيفة، مدرب قيادة عسكري. إدارة الفريق، اللوجستيات العملياتية. نشر OPEX: أفغانستان، أفريقيا، البلقان، المناطق الفرنسية ما وراء البحار.", cv_edu_title:"التعليم والتدريب", cv_edu_web:"تدريب مطور الويب والهاتف المحمول", cv_skills_title:"المهارات", cv_sk_transport:"🚌 النقل", cv_sk_urban:"النقل الحضري", cv_sk_supply:"سلسلة الإمداد", cv_sk_mil:"🪖 العسكرية", cv_sk_armor:"المركبات المدرعة", cv_sk_mgmt:"الإدارة", cv_sk_log:"اللوجستيات", cv_sk_web:"💻 الويب", cv_ongoing:"قيد التنفيذ", cv_sk_other:"🌍 أخرى", cv_sk_photo:"التصوير الفوتوغرافي", cv_sk_drive:"القيادة في الطرق الوعرة", cv_permits_title:"الرخص والشهادات", lic_d:"حافلة ونقل عام", lic_ce:"شاحنة ثقيلة جدًا", lic_c:"شاحنة ثقيلة", lic_fco:"FIMO للأشخاص والبضائع", lic_cl1:"SPV كندي", lic_car:"رافعة 6T", lic_vbl:"قائد مركبة مدرعة", lic_mon:"مدرب قيادة", cv_lang_title:"اللغات", cv_lang_b2:"طليق", cv_lang_a2:"أساسي", cv_lang_de:"مبتدئ — الحياة اليومية", cv_info_title:"المعلومات الشخصية", cv_dob:"تاريخ الميلاد", cv_dob_val:"متاح عند الطلب", cv_nationality_lbl:"الجنسية", cv_nat_val:"فرنسية — كاليدونيا الجديدة", cv_location:"الموقع", cv_interests:"الاهتمامات", cv_interests_val:"السفر · السفاري · التنزه · التصوير", lvl_expert:"خبير", lvl_ok:"متقدم" },
+
+  ru:{ back:"Вернуться к портфолио", cv_title:"Резюме", print_btn:"Печать / PDF", translating:"Перевод…", cv_subtitle:"Водитель автобуса · Тяжёлый транспорт · Веб-разработчик на обучении", cv_nationality:"Французский · Родом из Новой Каледонии", cv_profile_title:"Профиль", cv_profile:"Разносторонний специалист с 23 годами службы во французской армии, специализирующийся на управлении военными транспортными средствами и оперативной логистике. Успешно перешёл в пассажирский транспорт в Европе. В настоящее время обучается веб-разработке.", cv_exp_title:"Профессиональный опыт", cv_today:"по сей день", cv_cat_pax:"🚌 Пассажирский транспорт", cv_cat_freight:"🚛 Грузовой транспорт", cv_cat_mil:"🪖 Военная служба", cv_role_bus:"Водитель городского автобуса", cv_role_urban:"Городской транспорт — Сочленённый автобус 18м", cv_role_urban2:"Водитель городского транспорта", cv_role_school:"Водитель школьного автобуса", cv_role_canada:"Канадский водитель СПВ — Полуприцеп", cv_desc_canada:"Вождение североамериканских полуприцепов, канадские права категории 1.", cv_role_freight:"Водитель СПВ — Цепочка поставок и сбор", cv_desc_freight:"Тент, платформа, контейнер, молочная цистерна, паллетный погрузчик, ампролл.", cv_army:"Французская армия", cv_army_role:"Пилот лёгкой бронемашины · Инструктор · Командир группы", cv_army_desc:"23 года службы. Пилот лёгких бронированных машин, военный инструктор по вождению. Управление командой, оперативная логистика. Командировки: Афганистан, Африка, Балканы, заморские территории.", cv_edu_title:"Образование", cv_edu_web:"Обучение веб- и мобильной разработке", cv_skills_title:"Навыки", cv_sk_transport:"🚌 Транспорт", cv_sk_urban:"Городской транспорт", cv_sk_supply:"Цепочка поставок", cv_sk_mil:"🪖 Военное дело", cv_sk_armor:"Бронированные машины", cv_sk_mgmt:"Управление", cv_sk_log:"Логистика", cv_sk_web:"💻 Веб", cv_ongoing:"В процессе", cv_sk_other:"🌍 Прочее", cv_sk_photo:"Фотография", cv_sk_drive:"Вождение по бездорожью", cv_permits_title:"Права и сертификаты", lic_d:"Автобус и общественный транспорт", lic_ce:"Сверхтяжёлый грузовик", lic_c:"Грузовой автомобиль", lic_fco:"FIMO Пассажиры и грузы", lic_cl1:"Канадский СПВ", lic_car:"Погрузчик 6T", lic_vbl:"Водитель лёгкой бронемашины", lic_mon:"Инструктор по вождению", cv_lang_title:"Языки", cv_lang_b2:"Свободно", cv_lang_a2:"Базовый", cv_lang_de:"Начинающий — повседневная жизнь", cv_info_title:"Личная информация", cv_dob:"Дата рождения", cv_dob_val:"Доступно по запросу", cv_nationality_lbl:"Гражданство", cv_nat_val:"Французское — Новая Каледония", cv_location:"Местоположение", cv_interests:"Интересы", cv_interests_val:"Путешествия · Сафари · Походы · Фотография", lvl_expert:"Эксперт", lvl_ok:"Уверенный" }
+};
+
+const LANG_FLAGS = { fr:'🇫🇷', en:'🇬🇧', de:'🇩🇪', es:'🇪🇸', zh:'🇨🇳', ar:'🇸🇦', ru:'🇷🇺' };
+const RTL = ['ar'];
+let currentLang = 'fr';
+const cache = { fr: true };
+
+/* Récupérer la langue du portfolio si elle a été choisie */
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('portfolioLang');
+  if (saved && saved !== 'fr') setLang(saved);
+});
+
+function toggleLang() { document.getElementById('langBtn').classList.toggle('open'); }
+document.addEventListener('click', e => { if (!e.target.closest('#langBtn')) document.getElementById('langBtn').classList.remove('open'); });
+
+async function setLang(code, el) {
+  if (code === currentLang) return;
+  currentLang = code;
+  localStorage.setItem('portfolioLang', code);
+  document.getElementById('langCurrent').textContent = LANG_FLAGS[code] + ' ' + code.toUpperCase();
+  document.querySelectorAll('.lang-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('langBtn').classList.remove('open');
+  document.documentElement.setAttribute('lang', code);
+  document.documentElement.setAttribute('dir', RTL.includes(code) ? 'rtl' : 'ltr');
+
+  // Appliquer traductions manuelles immédiatement
+  applyTranslations(I18N[code]);
+
+  // Compléter avec MyMemory pour les textes longs
+  if (cache[code]) return;
+  try {
+    showTransBar(true);
+    const longKeys = ['cv_profile', 'cv_army_desc', 'cv_desc_freight', 'cv_desc_canada'];
+    for (const key of longKeys) {
+      const text = I18N.fr[key];
+      if (!text) continue;
+      try {
+        const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=fr|${code}`);
+        const data = await res.json();
+        if (data.responseStatus === 200 && data.responseData?.translatedText) {
+          I18N[code][key] = data.responseData.translatedText;
+          const els = document.querySelectorAll(`[data-i18n="${key}"]`);
+          els.forEach(el => el.textContent = data.responseData.translatedText);
+        }
+      } catch (_) {}
+    }
+    cache[code] = true;
+  } finally { showTransBar(false); }
+}
+
+function applyTranslations(t) {
+  if (!t) return;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  // Titre du document
+  document.title = `CV — Wabutrune Prosper (${currentLang.toUpperCase()})`;
+}
+
+function showTransBar(show) {
+  document.getElementById('transBar').classList.toggle('show', show);
+}
+</script>
+
+</body>
+</html>

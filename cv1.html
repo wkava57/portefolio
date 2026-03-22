@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV — Wabutrune Prosper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --or:#C9A84C; --or-clair:#e8c87a;
+      --bg:#0a0a0a; --bg2:#0d0d0d; --bg3:#111;
+      --ligne:#1a1a1a; --txt:#cccccc; --txt2:#888; --txt3:#555;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);}
+    ::-webkit-scrollbar{width:3px;}
+    ::-webkit-scrollbar-thumb{background:rgba(201,168,76,.3);border-radius:2px;}
+
+    /* TOOLBAR */
+    .toolbar{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,.3);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:12px;flex-wrap:wrap;}
+    .toolbar-left{display:flex;align-items:center;gap:12px;}
+    .back-link{display:flex;align-items:center;gap:6px;color:var(--txt3);font-size:11px;text-decoration:none;border:1px solid #222;border-radius:20px;padding:5px 12px;transition:all .2s;}
+    .back-link:hover{border-color:var(--or);color:var(--or);}
+    .toolbar-title{color:var(--or);font-family:'Cinzel',serif;font-size:13px;letter-spacing:2px;}
+    .toolbar-right{display:flex;align-items:center;gap:10px;}
+    .lang-btn{display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:5px 12px;cursor:pointer;transition:all .2s;position:relative;user-select:none;}
+    .lang-btn:hover{border-color:var(--or);}
+    .lang-current{color:var(--or);font-size:11px;font-weight:500;min-width:42px;}
+    .lang-arrow{color:var(--txt3);font-size:9px;transition:transform .2s;}
+    .lang-btn.open .lang-arrow{transform:rotate(180deg);}
+    .lang-dropdown{position:absolute;top:calc(100% + 8px);right:0;background:var(--bg2);border:1px solid rgba(201,168,76,.25);border-radius:12px;padding:6px;min-width:165px;z-index:200;display:none;box-shadow:0 8px 32px rgba(0,0,0,.7);}
+    .lang-btn.open .lang-dropdown{display:block;animation:fadeD .15s ease;}
+    @keyframes fadeD{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+    .lang-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;cursor:pointer;transition:background .15s;font-size:11px;color:var(--txt2);}
+    .lang-item:hover{background:#15150a;color:var(--txt);}
+    .lang-item.active{background:#0f0f05;color:var(--or);}
+    .lang-item .lcode{color:var(--txt3);font-size:10px;margin-left:auto;}
+    .lang-divider{height:.5px;background:var(--ligne);margin:4px 0;}
+    .print-btn{display:flex;align-items:center;gap:6px;background:var(--or);color:var(--bg);border:none;border-radius:20px;padding:6px 14px;font-size:11px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;}
+    .print-btn:hover{background:var(--or-clair);}
+    .trans-bar{display:none;background:#0a0a05;border-bottom:1px solid rgba(201,168,76,.2);padding:6px 20px;font-size:11px;color:var(--txt3);align-items:center;gap:8px;justify-content:center;}
+    .trans-bar.show{display:flex;}
+    .trans-spinner{width:12px;height:12px;border:1.5px solid rgba(201,168,76,.2);border-top-color:var(--or);border-radius:50%;animation:spin .6s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* LAYOUT 2 COLONNES — fidèle au CV original */
+    .cv-page{max-width:980px;margin:0 auto;display:grid;grid-template-columns:270px 1fr;min-height:calc(100vh - 52px);}
+
+    /* COLONNE GAUCHE */
+    .cv-left{background:var(--bg2);border-right:1px solid rgba(201,168,76,.15);padding:30px 22px;display:flex;flex-direction:column;gap:22px;}
+    .cv-photo-wrap{text-align:center;}
+    .cv-photo{width:140px;height:140px;border-radius:50%;border:3px solid var(--or);overflow:hidden;background:var(--bg3);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;}
+    .cv-photo img{width:100%;height:100%;object-fit:cover;}
+    .cv-photo .ini{color:var(--or);font-size:32px;font-weight:500;}
+    .cv-fullname{font-family:'Cinzel',serif;font-size:14px;font-weight:600;color:#f0f0f0;letter-spacing:2px;text-align:center;line-height:1.5;}
+    .cv-left-block{}
+    .cv-left-title{color:var(--or);font-size:9px;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;padding-bottom:5px;border-bottom:1px solid rgba(201,168,76,.2);font-weight:500;}
+    .cv-contact-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;color:var(--txt2);font-size:11px;line-height:1.5;}
+    .cv-contact-icon{width:24px;height:24px;border-radius:50%;flex-shrink:0;background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;}
+    .cv-contact-icon svg{width:10px;height:10px;fill:var(--or);}
+    .cv-qr-row{display:flex;gap:10px;justify-content:center;}
+    .cv-qr-item{text-align:center;}
+    .cv-qr-box{width:64px;height:64px;background:var(--bg3);border:1px solid rgba(201,168,76,.2);border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--txt3);}
+    .cv-qr-label{color:var(--txt3);font-size:9px;margin-top:3px;}
+    .cv-soft-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+    .cv-soft{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.12);border-radius:4px;padding:5px 8px;text-align:center;color:var(--txt);font-size:10px;}
+    .cv-lang-item{margin-bottom:9px;}
+    .cv-lang-name{color:var(--txt);font-size:11px;margin-bottom:3px;display:flex;justify-content:space-between;}
+    .cv-lang-level{color:var(--or);font-size:10px;}
+    .cv-lang-bg{background:#151515;height:3px;border-radius:2px;}
+    .cv-lang-fill{background:linear-gradient(90deg,var(--or),var(--or-clair));height:3px;border-radius:2px;}
+    .cv-extra-item{display:flex;align-items:center;gap:6px;color:var(--txt2);font-size:11px;margin-bottom:6px;}
+    .cv-extra-item::before{content:'◆';color:var(--or);font-size:6px;flex-shrink:0;}
+
+    /* COLONNE DROITE */
+    .cv-right{padding:30px 30px 40px;}
+    .cv-main-title{font-family:'Cinzel',serif;font-size:20px;font-weight:600;color:var(--or);letter-spacing:3px;text-align:center;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid rgba(201,168,76,.3);text-transform:uppercase;}
+    .cv-section{margin-bottom:22px;}
+    .cv-section-title{font-size:13px;font-weight:600;color:#f0f0f0;letter-spacing:1px;margin-bottom:10px;padding-bottom:5px;border-bottom:2px solid rgba(201,168,76,.25);text-transform:uppercase;}
+    .cv-about{color:var(--txt2);font-size:11px;line-height:1.85;text-align:justify;}
+    .cv-list{list-style:none;padding:0;}
+    .cv-list li{display:flex;align-items:flex-start;gap:7px;color:var(--txt);font-size:11px;margin-bottom:6px;line-height:1.5;}
+    .cv-list li::before{content:'●';color:var(--or);font-size:6px;margin-top:4px;flex-shrink:0;}
+    .cv-list li strong{color:var(--or);font-weight:500;}
+    .cv-job{display:flex;gap:10px;margin-bottom:7px;}
+    .cv-job-date{min-width:175px;color:var(--or);font-size:10px;font-weight:500;line-height:1.5;flex-shrink:0;padding-top:1px;}
+    .cv-job-content{flex:1;}
+    .cv-job-company{color:#f0f0f0;font-size:11px;font-weight:500;}
+    .cv-job-role{color:var(--txt2);font-size:11px;}
+    .cv-job+.cv-job{border-top:.5px solid #111;padding-top:7px;}
+
+    /* IMPRESSION */
+    @media print{
+      .toolbar,.trans-bar{display:none!important;}
+      body{background:#fff!important;}
+      .cv-page{grid-template-columns:250px 1fr;}
+      .cv-left{background:#f2f2f2!important;border-right-color:#ccc!important;}
+      :root{--bg:#fff;--bg2:#f4f4f4;--bg3:#e8e8e8;--txt:#111;--txt2:#444;--txt3:#666;--ligne:#ddd;--or:#8B6914;--or-clair:#b8891c;}
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:700px){
+      .cv-page{grid-template-columns:1fr;}
+      .cv-left{border-right:none;border-bottom:1px solid rgba(201,168,76,.15);padding:20px 14px;}
+      .cv-right{padding:20px 14px 40px;}
+      .cv-photo{width:110px;height:110px;}
+      .cv-main-title{font-size:15px;}
+      .toolbar{padding:8px 12px;}
+    }
+    [dir="rtl"] .cv-page{direction:rtl;}
+    [dir="rtl"] .cv-contact-item,[dir="rtl"] .cv-job{flex-direction:row-reverse;}
+  </style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-left">
+    <a href="index.html" class="back-link">← <span data-i18n="back">Retour au portfolio</span></a>
+    <span class="toolbar-title" data-i18n="cv_title">Curriculum Vitae</span>
+  </div>
+  <div class="toolbar-right">
+    <div class="lang-btn" id="langBtn" onclick="toggleLang()">
+      <span>🌐</span>
+      <span class="lang-current" id="langCurrent">🇫🇷 FR</span>
+      <span class="lang-arrow">▾</span>
+      <div class="lang-dropdown" id="langDropdown">
+        <div class="lang-item active" onclick="setLang('fr',this)">🇫🇷 Français <span class="lcode">FR</span></div>
+        <div class="lang-item" onclick="setLang('en',this)">🇬🇧 English <span class="lcode">EN</span></div>
+        <div class="lang-item" onclick="setLang('de',this)">🇩🇪 Deutsch <span class="lcode">DE</span></div>
+        <div class="lang-item" onclick="setLang('es',this)">🇪🇸 Español <span class="lcode">ES</span></div>
+        <div class="lang-divider"></div>
+        <div class="lang-item" onclick="setLang('zh',this)">🇨🇳 中文 <span class="lcode">ZH</span></div>
+        <div class="lang-item" onclick="setLang('ar',this)">🇸🇦 العربية <span class="lcode">AR</span></div>
+        <div class="lang-item" onclick="setLang('ru',this)">🇷🇺 Русский <span class="lcode">RU</span></div>
+      </div>
+    </div>
+    <button class="print-btn" onclick="window.print()">🖨 <span data-i18n="print_btn">Imprimer / PDF</span></button>
+  </div>
+</div>
+
+<div class="trans-bar" id="transBar">
+  <div class="trans-spinner"></div>
+  <span data-i18n="translating">Traduction en cours…</span>
+</div>
+
+<!-- CV PAGE -->
+<div class="cv-page">
+
+  <!-- ── GAUCHE ── -->
+  <div class="cv-left">
+
+    <!-- Photo + Nom -->
+    <div class="cv-photo-wrap">
+      <div class="cv-photo">
+        <img src="photo1.jpg" onerror="this.outerHTML='<span class=ini>WP</span>'" alt="Wabutrune Prosper">
+      </div>
+      <div class="cv-fullname">WABUTRUNE<br>PROSPER</div>
+    </div>
+
+    <!-- Contact -->
+    <div class="cv-left-block">
+      <div class="cv-left-title" data-i18n="lbl_contact">Contact</div>
+      <div class="cv-contact-item">
+        <div class="cv-contact-icon"><svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg></div>
+        +33 782 22 61 99
+      </div>
+      <div class="cv-contact-item">
+        <div class="cv-contact-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+        wabutrune.p@hotmail.com
+      </div>
+      <div class="cv-contact-item">
+        <div class="cv-contact-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 119.5 9 2.5 2.5 0 0112 11.5z"/></svg></div>
+        Clvischer Ring 41,<br>51063 Köln, Allemagne
+      </div>
+    </div>
+
+    <!-- QR Codes -->
+    <div class="cv-left-block">
+      <div class="cv-qr-row">
+        <div class="cv-qr-item">
+          <div class="cv-qr-box" id="qrLI"></div>
+          <div class="cv-qr-label">LinkedIn</div>
+        </div>
+        <div class="cv-qr-item">
+          <div class="cv-qr-box" id="qrWA"></div>
+          <div class="cv-qr-label">WhatsApp</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Informatique -->
+    <div class="cv-left-block">
+      <div class="cv-left-title" data-i18n="lbl_it">Informatique</div>
+      <div class="cv-soft-grid">
+        <div class="cv-soft">Word</div>
+        <div class="cv-soft">Excel</div>
+        <div class="cv-soft">PowerPoint</div>
+        <div class="cv-soft" data-i18n="lbl_webdev">Développeur web</div>
+      </div>
+    </div>
+
+    <!-- Langues -->
+    <div class="cv-left-block">
+      <div class="cv-left-title" data-i18n="lbl_languages">Languages</div>
+      <div class="cv-lang-item">
+        <div class="cv-lang-name"><span data-i18n="lang_fr">Français</span><span class="cv-lang-level">B2</span></div>
+        <div class="cv-lang-bg"><div class="cv-lang-fill" style="width:70%"></div></div>
+      </div>
+      <div class="cv-lang-item">
+        <div class="cv-lang-name"><span data-i18n="lang_en">Anglais</span><span class="cv-lang-level">A2</span></div>
+        <div class="cv-lang-bg"><div class="cv-lang-fill" style="width:25%"></div></div>
+      </div>
+    </div>
+
+    <!-- Infos complémentaires -->
+    <div class="cv-left-block">
+      <div class="cv-left-title" data-i18n="lbl_extra">Informations complémentaires</div>
+      <div class="cv-extra-item"><span data-i18n="extra_travel">Voyage (Safari)</span></div>
+      <div class="cv-extra-item"><span data-i18n="extra_hike">Randonnée</span></div>
+      <div class="cv-extra-item"><span data-i18n="extra_photo">Photographie</span></div>
+    </div>
+
+  </div>
+
+  <!-- ── DROITE ── -->
+  <div class="cv-right">
+
+    <div class="cv-main-title" data-i18n="cv_main_title">Chauffeur de bus / car</div>
+
+    <!-- À propos -->
+    <div class="cv-section">
+      <div class="cv-section-title" data-i18n="about_title">À propos de moi.</div>
+      <p class="cv-about" data-i18n="about_text">Originaire de la Nouvelle-Calédonie, j'ai commencé ma vie professionnelle en ayant eu le privilège de servir dans l'armée française durant 23 ans. La transition dans la vie civile a été un grand choc mais fort de mon vécu militaire, j'ai acquis l'art de pouvoir rebondir dans différentes situations. Toujours curieux d'apprendre, j'estime que rien n'est acquis et que les jours qui passent sont des leçons de vie. Et pour finir le respect de la parole reste sacré sans quoi celui-ci n'aurait plus de valeur.</p>
+    </div>
+
+    <!-- Formations -->
+    <div class="cv-section">
+      <div class="cv-section-title" data-i18n="training_title">Formations dans le domaine.</div>
+      <ul class="cv-list">
+        <li><strong>12/2024</strong>&nbsp;<span data-i18n="t1">FCO (FIMO) Personnel et Marchandise.</span></li>
+        <li><strong>2020</strong>&nbsp;<span data-i18n="t2">Permis Classe 1 (Super Poids Lourds Canadien).</span></li>
+        <li><strong>2018</strong>&nbsp;<span data-i18n="t3">Permis D.</span></li>
+        <li><strong>2006</strong>&nbsp;<span data-i18n="t4">Permis CE.</span></li>
+        <li><strong>2005</strong>&nbsp;<span data-i18n="t5">Cariste 6 tonnes.</span></li>
+        <li><strong>2004</strong>&nbsp;<span data-i18n="t6">Aide Moniteur Auto-École (VL / PL / SPL).</span></li>
+        <li><strong>1998</strong>&nbsp;<span data-i18n="t7">Permis C. Pilote véhicule blindé léger.</span></li>
+      </ul>
+    </div>
+
+    <!-- Compétences -->
+    <div class="cv-section">
+      <div class="cv-section-title" data-i18n="skills_title">Compétences</div>
+      <ul class="cv-list">
+        <li><span data-i18n="sk1">Transport urbain.</span></li>
+        <li><span data-i18n="sk2">Transport de marchandise en bâché, plateau, conteneur et citerne.</span></li>
+        <li><span data-i18n="sk3">Tire palette électrique.</span></li>
+        <li><span data-i18n="sk4">Chariot élévateur 6 tonnes.</span></li>
+        <li><span data-i18n="sk5">Ampli-roll.</span></li>
+        <li><span data-i18n="sk6">Management.</span></li>
+        <li><span data-i18n="sk7">Administrative.</span></li>
+        <li><span data-i18n="sk8">Informatique bureautique et de programmation web.</span></li>
+      </ul>
+    </div>
+
+    <!-- Parcours -->
+    <div class="cv-section">
+      <div class="cv-section-title" data-i18n="career_title">Parcours professionnels.</div>
+      <div class="cv-job"><div class="cv-job-date">05/01/2026 → <span data-i18n="today">aujourd'hui</span></div><div class="cv-job-content"><div class="cv-job-company">Deutsche Bahn</div><div class="cv-job-role" data-i18n="job_lev">Chauffeur de bus — Leverkusen</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">01/09/2025 – 30/11/2025</div><div class="cv-job-content"><div class="cv-job-company">Deutsche Bahn</div><div class="cv-job-role" data-i18n="job_brie">Chauffeur de bus — Brieselang</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">02/06/2025 – 31/08/2025</div><div class="cv-job-content"><div class="cv-job-company">ÉcoVista</div><div class="cv-job-role" data-i18n="job_eco">Transport urbain Berlin–Hambourg</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">05/12/2024 – 21/04/2025</div><div class="cv-job-content"><div class="cv-job-company">Transdev Savoie</div><div class="cv-job-role" data-i18n="job_merib">Transport urbain — Méribel</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">02/05/2024 – 05/07/2024</div><div class="cv-job-content"><div class="cv-job-company">Transport de l'Ain</div><div class="cv-job-role" data-i18n="job_ain">Conducteur de car scolaire</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">14/12/2023 – 30/04/2024</div><div class="cv-job-content"><div class="cv-job-company">Transdev</div><div class="cv-job-role" data-i18n="job_merib2">Conducteur urbain — Méribel</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">15/12/2021 – 26/05/2023</div><div class="cv-job-content"><div class="cv-job-company">IFPA</div><div class="cv-job-role" data-i18n="job_ifpa">Formation Développeur Web</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">20/05 – 05/07/2021</div><div class="cv-job-content"><div class="cv-job-company">DIFCO</div><div class="cv-job-role" data-i18n="job_difco">Chauffeur livreur</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">01/11/2020 – 31/04/2021</div><div class="cv-job-content"><div class="cv-job-company">Transport de Savoie</div><div class="cv-job-role" data-i18n="job_sav1">Chauffeur Supply Chain</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">01/04 – 30/06/2020</div><div class="cv-job-content"><div class="cv-job-company">BIO LAIT</div><div class="cv-job-role" data-i18n="job_biolait">Collecteur de lait</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">10/12/2019 – 20/02/2020</div><div class="cv-job-content"><div class="cv-job-company">XTL Transport 🇨🇦</div><div class="cv-job-role" data-i18n="job_xtl">Chauffeur SPL canadien — Canada</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">01/03 – 31/10/2019</div><div class="cv-job-content"><div class="cv-job-company">Transport de Savoie</div><div class="cv-job-role" data-i18n="job_sav2">Chauffeur Supply Chain</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">01/09 – 30/11/2018</div><div class="cv-job-content"><div class="cv-job-company">LACTOCOL</div><div class="cv-job-role" data-i18n="job_lacto">Collecteur de lait</div></div></div>
+      <div class="cv-job"><div class="cv-job-date">24/05/1995 – 31/07/2018</div><div class="cv-job-content"><div class="cv-job-company" data-i18n="job_army">Armée de Terre</div><div class="cv-job-role" data-i18n="job_army_role">Pilote VBL · Aide moniteur · Management · Logistique</div></div></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const I18N = {
+  fr:{ back:"Retour au portfolio",cv_title:"Curriculum Vitae",print_btn:"Imprimer / PDF",translating:"Traduction en cours…",lbl_contact:"Contact",lbl_it:"Informatique",lbl_webdev:"Développeur web",lbl_languages:"Languages",lang_fr:"Français",lang_en:"Anglais",lbl_extra:"Informations complémentaires",extra_travel:"Voyage (Safari)",extra_hike:"Randonnée",extra_photo:"Photographie",cv_main_title:"Chauffeur de bus / car",about_title:"À propos de moi.",about_text:"Originaire de la Nouvelle-Calédonie, j'ai commencé ma vie professionnelle en ayant eu le privilège de servir dans l'armée française durant 23 ans. La transition dans la vie civile a été un grand choc mais fort de mon vécu militaire, j'ai acquis l'art de pouvoir rebondir dans différentes situations. Toujours curieux d'apprendre, j'estime que rien n'est acquis et que les jours qui passent sont des leçons de vie. Et pour finir le respect de la parole reste sacré sans quoi celui-ci n'aurait plus de valeur.",training_title:"Formations dans le domaine.",t1:"FCO (FIMO) Personnel et Marchandise.",t2:"Permis Classe 1 (Super Poids Lourds Canadien).",t3:"Permis D.",t4:"Permis CE.",t5:"Cariste 6 tonnes.",t6:"Aide Moniteur Auto-École (VL / PL / SPL).",t7:"Permis C. Pilote véhicule blindé léger.",skills_title:"Compétences",sk1:"Transport urbain.",sk2:"Transport de marchandise en bâché, plateau, conteneur et citerne.",sk3:"Tire palette électrique.",sk4:"Chariot élévateur 6 tonnes.",sk5:"Ampli-roll.",sk6:"Management.",sk7:"Administrative.",sk8:"Informatique bureautique et de programmation web.",career_title:"Parcours professionnels.",today:"aujourd'hui",job_lev:"Chauffeur de bus — Leverkusen",job_brie:"Chauffeur de bus — Brieselang",job_eco:"Transport urbain Berlin–Hambourg",job_merib:"Transport urbain — Méribel",job_ain:"Conducteur de car scolaire",job_merib2:"Conducteur urbain — Méribel",job_ifpa:"Formation Développeur Web",job_difco:"Chauffeur livreur",job_sav1:"Chauffeur Supply Chain",job_biolait:"Collecteur de lait",job_xtl:"Chauffeur SPL canadien — Canada",job_sav2:"Chauffeur Supply Chain",job_lacto:"Collecteur de lait",job_army:"Armée de Terre",job_army_role:"Pilote VBL · Aide moniteur · Management · Logistique"},
+  en:{ back:"Back to portfolio",cv_title:"Curriculum Vitae",print_btn:"Print / PDF",translating:"Translating…",lbl_contact:"Contact",lbl_it:"IT Skills",lbl_webdev:"Web Developer",lbl_languages:"Languages",lang_fr:"French",lang_en:"English",lbl_extra:"Additional information",extra_travel:"Travel (Safari)",extra_hike:"Hiking",extra_photo:"Photography",cv_main_title:"Bus / Coach Driver",about_title:"About me.",about_text:"Originally from New Caledonia, I began my professional life with the privilege of serving in the French army for 23 years. The transition to civilian life was a major shock, but drawing on my military experience, I developed the ability to adapt to different situations. Always eager to learn, I believe nothing is ever guaranteed and each passing day brings new life lessons. Above all, keeping one's word remains sacred.",training_title:"Training & Qualifications.",t1:"FCO (FIMO) Passenger & Freight.",t2:"Class 1 Licence (Canadian Super Heavy Goods).",t3:"Licence D.",t4:"Licence CE.",t5:"6-tonne Forklift.",t6:"Driving Instructor Assistant (Car/HGV/SPV).",t7:"Licence C. Light Armored Vehicle Pilot.",skills_title:"Skills",sk1:"Urban transport.",sk2:"Freight transport: tarpaulin, flatbed, container and tanker.",sk3:"Electric pallet truck.",sk4:"6-tonne forklift.",sk5:"Ampliroll.",sk6:"Management.",sk7:"Administrative.",sk8:"Office IT and web programming.",career_title:"Professional experience.",today:"today",job_lev:"Bus driver — Leverkusen",job_brie:"Bus driver — Brieselang",job_eco:"Urban transport Berlin–Hamburg",job_merib:"Urban transport — Méribel",job_ain:"School bus driver",job_merib2:"Urban driver — Méribel",job_ifpa:"Web Developer Training",job_difco:"Delivery driver",job_sav1:"Supply Chain driver",job_biolait:"Milk collector",job_xtl:"Canadian SPV driver — Canada",job_sav2:"Supply Chain driver",job_lacto:"Milk collector",job_army:"French Army",job_army_role:"VBL Pilot · Driving instructor · Management · Logistics"},
+  de:{ back:"Zurück zum Portfolio",cv_title:"Lebenslauf",print_btn:"Drucken / PDF",translating:"Übersetzung…",lbl_contact:"Kontakt",lbl_it:"EDV-Kenntnisse",lbl_webdev:"Webentwickler",lbl_languages:"Sprachen",lang_fr:"Französisch",lang_en:"Englisch",lbl_extra:"Weitere Informationen",extra_travel:"Reisen (Safari)",extra_hike:"Wandern",extra_photo:"Fotografie",cv_main_title:"Bus- / Reisebusfahrer",about_title:"Über mich.",about_text:"Ich stamme aus Neukaledonien und begann mein Berufsleben mit dem Privileg, 23 Jahre in der französischen Armee zu dienen. Der Übergang ins Zivilleben war ein großer Schock, aber dank meiner militärischen Erfahrung habe ich gelernt, mich in verschiedenen Situationen anzupassen. Immer wissbegierig glaube ich, dass nichts selbstverständlich ist und jeder Tag eine Lebenslehre bringt.",training_title:"Ausbildung & Qualifikationen.",t1:"FCO (FIMO) Personen & Güter.",t2:"Klasse-1-Führerschein (Kanadischer Schwertransport).",t3:"Führerschein D.",t4:"Führerschein CE.",t5:"6-Tonnen-Gabelstapler.",t6:"Fahrlehrer-Assistent (PKW/LKW/SPV).",t7:"Führerschein C. Leichter Panzerwagen.",skills_title:"Kompetenzen",sk1:"Stadtverkehr.",sk2:"Gütertransport: Plane, Plateau, Container und Zisterne.",sk3:"Elektrischer Hubwagen.",sk4:"6-Tonnen-Gabelstapler.",sk5:"Ampliroll.",sk6:"Management.",sk7:"Verwaltung.",sk8:"Büro-EDV und Web-Programmierung.",career_title:"Beruflicher Werdegang.",today:"heute",job_lev:"Busfahrer — Leverkusen",job_brie:"Busfahrer — Brieselang",job_eco:"Stadtverkehr Berlin–Hamburg",job_merib:"Stadtverkehr — Méribel",job_ain:"Schulbusfahrer",job_merib2:"Stadtfahrer — Méribel",job_ifpa:"Webentwickler-Ausbildung",job_difco:"Lieferfahrer",job_sav1:"Supply-Chain-Fahrer",job_biolait:"Milchsammler",job_xtl:"Kanadischer SPV-Fahrer — Kanada",job_sav2:"Supply-Chain-Fahrer",job_lacto:"Milchsammler",job_army:"Französische Armee",job_army_role:"VBL-Pilot · Fahrlehrer · Management · Logistik"},
+  es:{ back:"Volver al portfolio",cv_title:"Currículum Vitae",print_btn:"Imprimir / PDF",translating:"Traduciendo…",lbl_contact:"Contacto",lbl_it:"Informática",lbl_webdev:"Desarrollador web",lbl_languages:"Idiomas",lang_fr:"Francés",lang_en:"Inglés",lbl_extra:"Información complementaria",extra_travel:"Viaje (Safari)",extra_hike:"Senderismo",extra_photo:"Fotografía",cv_main_title:"Conductor de autobús / autocar",about_title:"Sobre mí.",about_text:"Originario de Nueva Caledonia, comencé mi vida profesional con el privilegio de servir en el ejército francés durante 23 años. La transición a la vida civil fue un gran choque, pero gracias a mi experiencia militar, aprendí a adaptarme a diferentes situaciones. Siempre curioso por aprender, considero que nada está garantizado y cada día trae nuevas lecciones de vida.",training_title:"Formación y cualificaciones.",t1:"FCO (FIMO) Personal y Mercancías.",t2:"Licencia Clase 1 (SPV Canadiense).",t3:"Licencia D.",t4:"Licencia CE.",t5:"Carretilla 6 toneladas.",t6:"Monitor de conducción asistente (VL/PL/SPV).",t7:"Licencia C. Piloto de vehículo blindado ligero.",skills_title:"Competencias",sk1:"Transporte urbano.",sk2:"Transporte de mercancías en lona, plataforma, contenedor y cisterna.",sk3:"Transpaleta eléctrica.",sk4:"Carretilla elevadora 6 toneladas.",sk5:"Ampliroll.",sk6:"Gestión.",sk7:"Administración.",sk8:"Informática de oficina y programación web.",career_title:"Trayectoria profesional.",today:"hoy",job_lev:"Conductor de autobús — Leverkusen",job_brie:"Conductor de autobús — Brieselang",job_eco:"Transporte urbano Berlín–Hamburgo",job_merib:"Transporte urbano — Méribel",job_ain:"Conductor de autobús escolar",job_merib2:"Conductor urbano — Méribel",job_ifpa:"Formación Desarrollador Web",job_difco:"Conductor de reparto",job_sav1:"Conductor Supply Chain",job_biolait:"Recolector de leche",job_xtl:"Conductor SPV canadiense — Canadá",job_sav2:"Conductor Supply Chain",job_lacto:"Recolector de leche",job_army:"Ejército Francés",job_army_role:"Piloto VBL · Monitor conducción · Gestión · Logística"},
+  zh:{ back:"返回作品集",cv_title:"简历",print_btn:"打印 / PDF",translating:"翻译中…",lbl_contact:"联系方式",lbl_it:"信息技术",lbl_webdev:"网页开发者",lbl_languages:"语言",lang_fr:"法语",lang_en:"英语",lbl_extra:"补充信息",extra_travel:"旅行（狩猎旅行）",extra_hike:"徒步旅行",extra_photo:"摄影",cv_main_title:"公共汽车司机",about_title:"关于我。",about_text:"来自新喀里多尼亚，我以在法国军队服役23年开始了我的职业生涯。转入平民生活是一个巨大的冲击，但凭借我的军事经历，我学会了在不同情况下适应和反弹的艺术。始终好奇求知，我认为没有什么是理所当然的，每天都是生活的一课。",training_title:"培训与资格证书。",t1:"FCO（FIMO）人员和货物。",t2:"1类驾照（加拿大超重型车辆）。",t3:"D类驾照。",t4:"CE类驾照。",t5:"6吨叉车。",t6:"驾驶教练助手。",t7:"C类驾照。轻型装甲车驾驶员。",skills_title:"技能",sk1:"城市运输。",sk2:"货物运输：篷布、平板车、集装箱和罐车。",sk3:"电动托盘车。",sk4:"6吨叉车。",sk5:"Ampliroll。",sk6:"管理。",sk7:"行政。",sk8:"办公自动化和网页编程。",career_title:"职业经历。",today:"至今",job_lev:"公交司机 — 莱沃库森",job_brie:"公交司机 — 布里塞朗",job_eco:"城市运输 柏林–汉堡",job_merib:"城市运输 — 梅里贝尔",job_ain:"校车司机",job_merib2:"城市司机 — 梅里贝尔",job_ifpa:"网页开发培训",job_difco:"配送司机",job_sav1:"供应链司机",job_biolait:"牛奶收集员",job_xtl:"加拿大SPV司机 — 加拿大",job_sav2:"供应链司机",job_lacto:"牛奶收集员",job_army:"法国陆军",job_army_role:"VBL驾驶员 · 教练 · 管理 · 后勤"},
+  ar:{ back:"العودة إلى المحفظة",cv_title:"السيرة الذاتية",print_btn:"طباعة / PDF",translating:"جارٍ الترجمة…",lbl_contact:"معلومات الاتصال",lbl_it:"تقنية المعلومات",lbl_webdev:"مطور ويب",lbl_languages:"اللغات",lang_fr:"الفرنسية",lang_en:"الإنجليزية",lbl_extra:"معلومات إضافية",extra_travel:"السفر (سافاري)",extra_hike:"المشي لمسافات طويلة",extra_photo:"التصوير",cv_main_title:"سائق حافلة",about_title:"نبذة عني.",about_text:"أصلي من كاليدونيا الجديدة، بدأت حياتي المهنية بشرف خدمة الجيش الفرنسي لمدة 23 عامًا. كان الانتقال إلى الحياة المدنية صدمة كبيرة، لكن بفضل تجربتي العسكرية اكتسبت فن التكيف في مختلف المواقف. دائم الفضول للتعلم، أعتقد أن كل يوم يمر هو درس في الحياة.",training_title:"التدريب والمؤهلات.",t1:"FCO (FIMO) أشخاص وبضائع.",t2:"رخصة الفئة 1 (شاحنة ثقيلة كندية).",t3:"رخصة D.",t4:"رخصة CE.",t5:"رافعة شوكية 6 أطنان.",t6:"مساعد مدرب القيادة.",t7:"رخصة C. قائد مركبة مدرعة خفيفة.",skills_title:"المهارات",sk1:"النقل الحضري.",sk2:"نقل البضائع: مشمّع، منصة، حاوية وصهريج.",sk3:"طارة كهربائية.",sk4:"رافعة شوكية 6 أطنان.",sk5:"أمبليرول.",sk6:"الإدارة.",sk7:"الشؤون الإدارية.",sk8:"معلوماتية المكتب وبرمجة الويب.",career_title:"المسار المهني.",today:"حتى الآن",job_lev:"سائق حافلة — ليفركوزن",job_brie:"سائق حافلة — برياسيلانج",job_eco:"نقل حضري برلين–هامبورغ",job_merib:"نقل حضري — ميريبيل",job_ain:"سائق حافلة مدرسية",job_merib2:"سائق حضري — ميريبيل",job_ifpa:"تدريب مطور الويب",job_difco:"سائق توصيل",job_sav1:"سائق سلسلة الإمداد",job_biolait:"جامع الحليب",job_xtl:"سائق SPV كندي — كندا",job_sav2:"سائق سلسلة الإمداد",job_lacto:"جامع الحليب",job_army:"الجيش الفرنسي",job_army_role:"قائد VBL · مدرب قيادة · إدارة · لوجستيات"},
+  ru:{ back:"Вернуться к портфолио",cv_title:"Резюме",print_btn:"Печать / PDF",translating:"Перевод…",lbl_contact:"Контакты",lbl_it:"IT навыки",lbl_webdev:"Веб-разработчик",lbl_languages:"Языки",lang_fr:"Французский",lang_en:"Английский",lbl_extra:"Дополнительная информация",extra_travel:"Путешествия (Сафари)",extra_hike:"Пешие прогулки",extra_photo:"Фотография",cv_main_title:"Водитель автобуса",about_title:"Обо мне.",about_text:"Родом из Новой Каледонии, я начал свою профессиональную жизнь с честью служить во французской армии в течение 23 лет. Переход к гражданской жизни был большим потрясением, но опираясь на свой военный опыт, я освоил искусство адаптации. Всегда стремясь к новым знаниям, я считаю, что каждый день — это урок жизни.",training_title:"Обучение и квалификации.",t1:"FCO (FIMO) Пассажиры и грузы.",t2:"Права категории 1 (Канадский тяжёлый транспорт).",t3:"Права категории D.",t4:"Права категории CE.",t5:"Вилочный погрузчик 6 тонн.",t6:"Помощник инструктора по вождению.",t7:"Права категории C. Водитель лёгкой бронемашины.",skills_title:"Навыки",sk1:"Городской транспорт.",sk2:"Грузовой транспорт: тент, платформа, контейнер и цистерна.",sk3:"Электрический паллетный погрузчик.",sk4:"Вилочный погрузчик 6 тонн.",sk5:"Ампролл.",sk6:"Управление.",sk7:"Административная работа.",sk8:"Офисная информатика и веб-программирование.",career_title:"Профессиональный путь.",today:"по сей день",job_lev:"Водитель автобуса — Леверкузен",job_brie:"Водитель автобуса — Бризелан",job_eco:"Городской транспорт Берлин–Гамбург",job_merib:"Городской транспорт — Мерибель",job_ain:"Водитель школьного автобуса",job_merib2:"Городской водитель — Мерибель",job_ifpa:"Обучение веб-разработке",job_difco:"Водитель-курьер",job_sav1:"Водитель Supply Chain",job_biolait:"Сборщик молока",job_xtl:"Канадский водитель СПВ — Канада",job_sav2:"Водитель Supply Chain",job_lacto:"Сборщик молока",job_army:"Французская армия",job_army_role:"Пилот VBL · Инструктор · Управление · Логистика"}
+};
+
+const LANG_FLAGS={fr:'🇫🇷',en:'🇬🇧',de:'🇩🇪',es:'🇪🇸',zh:'🇨🇳',ar:'🇸🇦',ru:'🇷🇺'};
+const RTL=['ar'];
+let currentLang='fr';
+
+window.addEventListener('load',()=>{
+  const saved=localStorage.getItem('portfolioLang');
+  if(saved&&saved!=='fr') setLang(saved);
+  setTimeout(()=>{
+    try{new QRCode(document.getElementById('qrLI'),{text:'https://www.linkedin.com/in/wabutrune-prosper',width:64,height:64,colorDark:'#C9A84C',colorLight:'#111',correctLevel:QRCode.CorrectLevel.M});}catch(e){}
+    try{new QRCode(document.getElementById('qrWA'),{text:'https://wa.me/33782226199',width:64,height:64,colorDark:'#25D366',colorLight:'#111',correctLevel:QRCode.CorrectLevel.M});}catch(e){}
+  },400);
+});
+
+function toggleLang(){document.getElementById('langBtn').classList.toggle('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('#langBtn'))document.getElementById('langBtn').classList.remove('open');});
+
+async function setLang(code,el){
+  if(code===currentLang)return;
+  currentLang=code;
+  localStorage.setItem('portfolioLang',code);
+  document.getElementById('langCurrent').textContent=LANG_FLAGS[code]+' '+code.toUpperCase();
+  document.querySelectorAll('.lang-item').forEach(i=>i.classList.remove('active'));
+  if(el)el.classList.add('active');
+  document.getElementById('langBtn').classList.remove('open');
+  document.documentElement.setAttribute('lang',code);
+  document.documentElement.setAttribute('dir',RTL.includes(code)?'rtl':'ltr');
+  applyTranslations(I18N[code]);
+  if(!I18N[code]._done){
+    try{
+      showTransBar(true);
+      const res=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(I18N.fr.about_text)}&langpair=fr|${code}`);
+      const data=await res.json();
+      if(data.responseStatus===200&&data.responseData?.translatedText){
+        I18N[code].about_text=data.responseData.translatedText;
+        document.querySelector('[data-i18n="about_text"]').textContent=data.responseData.translatedText;
+      }
+      I18N[code]._done=true;
+    }catch(_){}
+    finally{showTransBar(false);}
+  }
+}
+
+function applyTranslations(t){
+  if(!t)return;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(t[k]!==undefined)el.textContent=t[k];});
+  document.title=`CV — Wabutrune Prosper (${currentLang.toUpperCase()})`;
+}
+function showTransBar(show){document.getElementById('transBar').classList.toggle('show',show);}
+</script>
+</body>
+</html>

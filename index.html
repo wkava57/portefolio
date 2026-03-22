@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wabutrune Prosper — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/globe.gl@2.27.2/dist/globe.gl.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+============================================================ -->
+<nav class="nav">
+  <div class="nav-logo" onclick="goPage('accueil')">W · P</div>
+
+  <!-- SÉLECTEUR DE LANGUE — centré -->
+  <div class="lang-selector">
+    <div class="lang-btn" id="langBtn" onclick="toggleLangMenu()">
+      <span class="lang-globe">🌐</span>
+      <span class="lang-current" id="langCurrent">🇫🇷 FR</span>
+      <span class="lang-arrow">▾</span>
+      <div class="lang-dropdown" id="langDropdown">
+        <div class="lang-item active" onclick="setLang('fr',this)"><span class="lflag">🇫🇷</span><span class="lname">Français</span><span class="lcode">FR</span></div>
+        <div class="lang-item" onclick="setLang('en',this)"><span class="lflag">🇬🇧</span><span class="lname">English</span><span class="lcode">EN</span></div>
+        <div class="lang-item" onclick="setLang('de',this)"><span class="lflag">🇩🇪</span><span class="lname">Deutsch</span><span class="lcode">DE</span></div>
+        <div class="lang-item" onclick="setLang('es',this)"><span class="lflag">🇪🇸</span><span class="lname">Español</span><span class="lcode">ES</span></div>
+        <div class="lang-divider"></div>
+        <div class="lang-item" onclick="setLang('zh',this)"><span class="lflag">🇨🇳</span><span class="lname">中文</span><span class="lcode">ZH</span></div>
+        <div class="lang-item" onclick="setLang('ar',this)"><span class="lflag">🇸🇦</span><span class="lname">العربية</span><span class="lcode">AR</span></div>
+        <div class="lang-item" onclick="setLang('ru',this)"><span class="lflag">🇷🇺</span><span class="lname">Русский</span><span class="lcode">RU</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-links">
+    <span class="nav-link active"  onclick="goPage('accueil')"      data-i18n="nav_home">Accueil</span>
+    <span class="nav-link"         onclick="goPage('competences')"  data-i18n="nav_skills">Compétences</span>
+    <span class="nav-link"         onclick="goPage('parcours')"     data-i18n="nav_career">Parcours</span>
+    <span class="nav-link"         onclick="goPage('materiel')"     data-i18n="nav_vehicles">Matériel</span>
+    <span class="nav-link"         onclick="goPage('voyages')"      data-i18n="nav_travels">Voyages</span>
+    <span class="nav-link"         onclick="goPage('contact')"      data-i18n="nav_contact">Contact</span>
+  </div>
+</nav>
+
+<!-- Barre de traduction en cours -->
+<div class="trans-bar" id="transBar">
+  <div class="trans-spinner"></div>
+  <span id="transMsg">Traduction en cours…</span>
+</div>
+
+<!-- ============================================================
+     PAGE : ACCUEIL
+============================================================ -->
+<div class="page active" id="page-accueil">
+  <div class="hero" id="hero">
+    <canvas id="sunCanvas"></canvas>
+    <div class="hero-inner">
+
+      <!-- Avatar fixe à gauche -->
+      <div class="avatar-col">
+        <div class="avatar-wrap" id="avatarWrap">
+          <div class="avatar-inner" id="avatarInner">
+            <div class="avatar-face front">
+              <!-- ── REMPLACEZ src par votre vraie photo 1 ── -->
+              <img src="photos/id.jpg" onerror="this.outerHTML='<span class=ini>WP</span>'" alt="Wabutrune Prosper">
+            </div>
+            <div class="avatar-face back">
+              <!-- ── REMPLACEZ src par votre vraie photo 2 ── -->
+              <img src="photos/cartoon.jpg" onerror="this.outerHTML='<span class=ini style=\'color:#e8c87a;font-size:11px\'>Photo 2</span>'" alt="Wabutrune Prosper">
+            </div>
+          </div>
+        </div>
+        <div class="avatar-dots">
+          <div class="avatar-dot on" id="dot0"></div>
+          <div class="avatar-dot"    id="dot1"></div>
+        </div>
+      </div>
+
+      <!-- Texte à droite -->
+      <div class="hero-text">
+        <div class="hero-name" id="heroName"><span class="caret" id="caret"></span></div>
+        <div class="hero-title" id="heroTitle"></div>
+        <p class="hero-desc" id="heroDesc" data-i18n="hero_desc">
+          Originaire de Nouvelle-Calédonie, 23 ans dans l'armée française.
+          Une carrière forgée dans la discipline, la polyvalence et le dépassement de soi.
+        </p>
+        <div class="hero-badge" id="heroBadge">
+          <div class="bdot"></div>
+          <span class="btxt" data-i18n="hero_badge">En cours d'apprentissage — Développement web</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hgrid-wrap"><div class="hgrid">
+    <div class="hgs">
+      <div class="stitle" data-i18n="skills_key">Compétences clés</div>
+      <div class="sbar"><div class="slbl" data-i18n="sk_bus">Transport urbain & bus</div><div class="bg-bar"><div class="bf" style="width:95%"></div></div></div>
+      <div class="sbar"><div class="slbl" data-i18n="sk_hgv">Transport PL / SPL</div><div class="bg-bar"><div class="bf" style="width:90%"></div></div></div>
+      <div class="sbar"><div class="slbl" data-i18n="sk_mil">Management militaire</div><div class="bg-bar"><div class="bf" style="width:80%"></div></div></div>
+      <div class="sbar"><div class="slbl">HTML/CSS <span class="inp" data-i18n="ongoing">en cours</span></div><div class="bg-bar"><div class="bf lrn" style="width:60%"></div></div></div>
+      <div class="sbar"><div class="slbl">PHP/Symfony <span class="inp" data-i18n="ongoing">en cours</span></div><div class="bg-bar"><div class="bf lrn" style="width:40%"></div></div></div>
+    </div>
+    <div class="hgs">
+      <div class="stitle" data-i18n="recent_career">Parcours récent</div>
+      <div style="margin-bottom:9px">
+        <div style="color:var(--or);font-size:10px" data-i18n="job1_date">2026 → aujourd'hui</div>
+        <div style="color:var(--txt);font-size:12px;font-weight:500">Deutsche Bahn · Leverkusen</div>
+        <div style="color:var(--txt3);font-size:11px" data-i18n="job1_role">Chauffeur de bus</div>
+      </div>
+      <div style="margin-bottom:9px">
+        <div style="color:var(--or);font-size:10px">2025</div>
+        <div style="color:var(--txt);font-size:12px;font-weight:500">ÉcoVista · Berlin–Hambourg</div>
+        <div style="color:var(--txt3);font-size:11px" data-i18n="job2_role">Transport urbain</div>
+      </div>
+      <div>
+        <div style="color:var(--or);font-size:10px">2021 – 2023</div>
+        <div style="color:var(--txt);font-size:12px;font-weight:500">IFPA</div>
+        <div style="color:var(--txt3);font-size:11px" data-i18n="job3_role">Formation Développeur Web</div>
+      </div>
+    </div>
+    <div class="hgs">
+      <div class="stitle" data-i18n="learning_web">Apprentissage web</div>
+      <div style="color:#666;font-size:11px;line-height:1.7;margin-bottom:8px" data-i18n="learning_desc">
+        Formation continue — ce portfolio est lui-même un projet d'apprentissage en cours.
+      </div>
+      <div class="stack">
+        <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span>
+        <span class="tag">PHP</span><span class="tag">Symfony</span><span class="tag">Git</span>
+      </div>
+    </div>
+    <div class="hgs">
+      <div class="stitle" data-i18n="contact_lbl">Contact</div>
+      <div class="ci"><div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>wabutrune.p@hotmail.com</div>
+      <div class="ci"><div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg></div>+33 7 82 22 61 99</div>
+      <div class="ci"><div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 119.5 9 2.5 2.5 0 0112 11.5z"/></svg></div>Köln, Allemagne</div>
+      <div class="ci"><div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17A15.6 15.6 0 0110 12.34a15.6 15.6 0 01-2.5-4.34H5.5A17.68 17.68 0 009 14.56l-4.5 4.43L6 20.5l4.5-4.5 2.82 2.82.55-3.75zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg></div>
+      <span data-i18n="lang_val">Français B2 · Anglais A2</span></div>
+    </div>
+  </div></div>
+  <div class="home-cta">
+    <!--<button class="btn" onclick="window.open('cv_wabutrune_prosper.pdf')" data-i18n="btn_cv">Télécharger le CV</button>
+    <button class="btn-o" onclick="goPage('contact')" data-i18n="btn_contact">Me contacter</button>-->
+    <a href="cv.html" target="_blank">
+  <button class="btn" data-i18n="btn_cv">Télécharger le CV</button>
+</a>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE : COMPÉTENCES
+============================================================ -->
+<div class="page" id="page-competences">
+  <div class="skills-body">
+    <div class="stitle" style="margin-bottom:16px" data-i18n="comp_page_title">Compétences & formations</div>
+    <div class="sgrid">
+      <div class="scat"><div class="scat-title" data-i18n="cat_pax">🚌 Transport de personnes</div>
+        <div class="si"><div class="sn"><span data-i18n="sk_urban">Transport urbain</span><span data-i18n="lvl_expert">Expert</span></div><div class="bg2b"><div class="bf2" style="width:95%"></div></div></div>
+        <div class="si"><div class="sn"><span data-i18n="sk_school">Car scolaire</span><span data-i18n="lvl_ok">Confirmé</span></div><div class="bg2b"><div class="bf2" style="width:88%"></div></div></div>
+        <div class="si"><div class="sn"><span data-i18n="sk_artic">Bus articulé</span><span data-i18n="lvl_ok">Confirmé</span></div><div class="bg2b"><div class="bf2" style="width:85%"></div></div></div>
+      </div>
+      <div class="scat"><div class="scat-title" data-i18n="cat_freight">🚛 Transport de marchandise</div>
+        <div class="si"><div class="sn"><span>PL / SPL</span><span data-i18n="lvl_expert">Expert</span></div><div class="bg2b"><div class="bf2" style="width:92%"></div></div></div>
+        <div class="si"><div class="sn"><span data-i18n="sk_supply">Supply Chain</span><span data-i18n="lvl_ok">Confirmé</span></div><div class="bg2b"><div class="bf2" style="width:85%"></div></div></div>
+        <div class="si"><div class="sn"><span data-i18n="sk_fork">Chariot élévateur 6T</span><span data-i18n="lvl_ok">Confirmé</span></div><div class="bg2b"><div class="bf2" style="width:80%"></div></div></div>
+      </div>
+      <div class="scat"><div class="scat-title" data-i18n="cat_mil">🪖 Militaire & management</div>
+        <div class="si"><div class="sn"><span data-i18n="sk_armor">Véhicules blindés</span><span data-i18n="lvl_expert">Expert</span></div><div class="bg2b"><div class="bf2" style="width:90%"></div></div></div>
+        <div class="si"><div class="sn"><span data-i18n="sk_mgmt">Management d'équipe</span><span data-i18n="lvl_ok">Confirmé</span></div><div class="bg2b"><div class="bf2" style="width:82%"></div></div></div>
+        <div class="si"><div class="sn"><span data-i18n="sk_log">Logistique opérationnelle</span><span data-i18n="lvl_ok">Confirmé</span></div><div class="bg2b"><div class="bf2" style="width:85%"></div></div></div>
+      </div>
+      <div class="scat"><div class="scat-title" data-i18n="cat_web">💻 Développement web</div>
+        <div class="si"><div class="sn">HTML / CSS<span class="inp" data-i18n="ongoing">en cours</span></div><div class="bg2b"><div class="bf2 lrn" style="width:60%"></div></div></div>
+        <div class="si"><div class="sn">PHP / Symfony<span class="inp" data-i18n="ongoing">en cours</span></div><div class="bg2b"><div class="bf2 lrn" style="width:40%"></div></div></div>
+        <div class="si"><div class="sn">JavaScript<span class="inp" data-i18n="ongoing">en cours</span></div><div class="bg2b"><div class="bf2 lrn" style="width:35%"></div></div></div>
+      </div>
+    </div>
+    <div class="permits">
+      <div class="stitle" style="margin:20px 0 12px" data-i18n="permits_title">Permis & certifications</div>
+      <div class="pgrid">
+        <div class="pc gold"><div class="pc-name">D</div><div class="pc-desc" data-i18n="lic_d">Bus & transport en commun</div><div class="pc-year">2018</div></div>
+        <div class="pc gold"><div class="pc-name">CE</div><div class="pc-desc" data-i18n="lic_ce">Super poids lourd</div><div class="pc-year">2006</div></div>
+        <div class="pc gold"><div class="pc-name">C</div><div class="pc-desc" data-i18n="lic_c">Poids lourd</div><div class="pc-year">1998</div></div>
+        <div class="pc gold"><div class="pc-name">FCO</div><div class="pc-desc" data-i18n="lic_fco">FIMO Personnel & Marchandise</div><div class="pc-year">2024</div></div>
+        <div class="pc"><div class="pc-name">CL.1</div><div class="pc-desc" data-i18n="lic_cl1">SPL Canadien (XTL)</div><div class="pc-year">2020</div></div>
+        <div class="pc"><div class="pc-name">CAR.</div><div class="pc-desc" data-i18n="lic_car">Cariste 6 tonnes</div><div class="pc-year">2005</div></div>
+        <div class="pc"><div class="pc-name">VBL</div><div class="pc-desc" data-i18n="lic_vbl">Pilote blindé léger</div><div class="pc-year">1998</div></div>
+        <div class="pc"><div class="pc-name">MONITEUR</div><div class="pc-desc" data-i18n="lic_mon">Aide moniteur VL/PL/SPL</div><div class="pc-year">2004</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE : PARCOURS
+============================================================ -->
+<div class="page" id="page-parcours">
+  <div class="parcours-body">
+    <div class="ftitle" data-i18n="career_title">Parcours professionnel</div>
+    <div class="filters">
+      <div class="fb" id="fb-mil"   onclick="setFilter('militaire')"><div class="fi fi-mil">🪖</div><div class="fl"><strong data-i18n="fil_mil">Militaire</strong><span data-i18n="fil_mil_sub">Armée de Terre · 23 ans</span></div><span class="fa">›</span></div>
+      <div class="fb" id="fb-march" onclick="setFilter('marchandise')"><div class="fi fi-march">🚛</div><div class="fl"><strong data-i18n="fil_freight">Transport marchandise</strong><span data-i18n="fil_freight_sub">PL, supply chain, collecte</span></div><span class="fa">›</span></div>
+      <div class="fb" id="fb-pers"  onclick="setFilter('personnes')"><div class="fi fi-pers">🚌</div><div class="fl"><strong data-i18n="fil_pax">Transport personnes</strong><span data-i18n="fil_pax_sub">Bus, car, urbain, scolaire</span></div><span class="fa">›</span></div>
+    </div>
+    <div class="tl-wrap" id="tlZone">
+      <div class="empty-s"><p><span data-i18n="select_cat">Sélectionne une catégorie</span><br><span style="color:var(--or)">Militaire · Marchandise · Transport</span></p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE : MATÉRIEL
+============================================================ -->
+<div class="page" id="page-materiel">
+  <div id="matHome"><div class="mat-home">
+    <div class="mat-intro"><span data-i18n="mat_intro">Des blindés militaires aux bus articulés —</span> <span data-i18n="mat_select">sélectionne une catégorie.</span></div>
+    <div class="cgrid">
+      <div class="ccard mil" onclick="showMat('mil')"><div class="cicon">🪖</div><div class="cname" data-i18n="mat_mil">Militaire</div><div class="cdesc" data-i18n="mat_mil_desc">VAB, VBL, TRM 2000/4000, GBC 180, bâché, conteneur, plateau.</div><div class="ccount" data-i18n="mat_mil_count">8 véhicules</div></div>
+      <div class="ccard civ" onclick="showMat('civ')"><div class="cicon">🚌</div><div class="cname" data-i18n="mat_civ">Civil</div><div class="cdesc" data-i18n="mat_civ_desc">Bus urbains, car scolaire, articulé et camion américain.</div><div class="ccount" data-i18n="mat_civ_count">4 véhicules</div></div>
+    </div>
+  </div></div>
+  <div id="matSub" style="display:none">
+    <div class="mat-hdr"><button class="back-btn" onclick="backMat()" data-i18n="btn_back">← Matériel</button><div class="mat-ptitle" id="matSubTitle"></div><button class="sw-btn" id="swBtn"></button></div>
+    <div class="vgrid" id="vGrid"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE : VOYAGES
+============================================================ -->
+<div class="page" id="page-voyages">
+  <div class="globe-top">
+    <h2 data-i18n="travel_title">Destinations & Projections</h2>
+    <div class="globe-legend">
+      <div class="leg"><span style="font-size:12px">❤️</span><span data-i18n="leg_home">Pays natal</span></div>
+      <div class="leg"><div class="leg-dot t"></div><span data-i18n="leg_travel">Voyages</span></div>
+      <div class="leg"><div class="leg-dot m"></div><span data-i18n="leg_mil">Projections militaires</span></div>
+      <div class="leg"><span>🛫</span><span data-i18n="leg_depart">Paris CDG</span></div>
+    </div>
+  </div>
+  <div id="globeViz"></div>
+  <div class="globe-info" id="globeInfo"><span style="color:#444;font-size:11px" data-i18n="globe_hint">✈ Clique sur une destination pour lancer l'animation depuis Paris</span></div>
+  <div class="dest-panel">
+    <div><h3 data-i18n="personal_travels">Voyages personnels</h3><div class="dest-tags" id="tTags"></div></div>
+    <div><h3 data-i18n="mil_proj">Projections militaires</h3><div class="dest-tags" id="mTags"></div></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE : CONTACT
+============================================================ -->
+<div class="page" id="page-contact">
+  <div class="contact-body">
+    <div class="contact-info">
+      <h2 data-i18n="contact_title">Me contacter</h2>
+      <p data-i18n="contact_desc">Disponible pour toute opportunité professionnelle — transport ou développement web.</p>
+      <div class="citems">
+        <div class="crow"><div class="cico"><svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div><div><div class="cval">wabutrune.p@hotmail.com</div><div class="clbl" data-i18n="lbl_email">Email</div></div></div>
+        <div class="crow"><div class="cico"><svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg></div><div><div class="cval">+33 7 82 22 61 99</div><div class="clbl" data-i18n="lbl_phone">Téléphone</div></div></div>
+        <div class="crow"><div class="cico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 119.5 9 2.5 2.5 0 0112 11.5z"/></svg></div><div><div class="cval">Köln, Allemagne</div><div class="clbl" data-i18n="lbl_loc">Localisation</div></div></div>
+        <div class="crow"><div class="cico"><svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17A15.6 15.6 0 0110 12.34a15.6 15.6 0 01-2.5-4.34H5.5A17.68 17.68 0 009 14.56l-4.5 4.43L6 20.5l4.5-4.5 2.82 2.82.55-3.75zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg></div><div><div class="cval" data-i18n="lang_val">Français B2 · Anglais A2</div><div class="clbl" data-i18n="lbl_lang">Langues</div></div></div>
+      </div>
+      <div class="qr-row">
+        <div class="qr-card wa">
+          <div class="qr-icon wa"><svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></div>
+          <div class="qr-title wa">WhatsApp</div>
+          <div class="qr-sub" data-i18n="qr_wa">Contact international</div>
+          <canvas id="qrWA" width="64" height="64"></canvas>
+        </div>
+        <div class="qr-card li">
+          <div class="qr-icon li"><svg viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
+          <div class="qr-title li">LinkedIn</div>
+          <div class="qr-sub" data-i18n="qr_li">Profil professionnel</div>
+          <canvas id="qrLI" width="64" height="64"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="form-side">
+      <h2 data-i18n="form_title">Envoyer un message</h2>
+      <div class="fg"><label class="fl2" data-i18n="form_name">Nom</label><input class="fi2" id="fName" placeholder="Votre nom" data-i18n-ph="ph_name"></div>
+      <div class="fg"><label class="fl2">Email</label><input class="fi2" placeholder="votre@email.com"></div>
+      <div class="fg"><label class="fl2" data-i18n="form_msg">Message</label><textarea class="fta" id="fMsg" placeholder="Votre message..." data-i18n-ph="ph_msg"></textarea></div>
+      <button class="fsend" onclick="sendMsg()" data-i18n="btn_send">Envoyer le message</button>
+      <div class="fok" id="fok" data-i18n="msg_sent">Message envoyé ! Je vous répondrai dans les plus brefs délais.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL VÉHICULE -->
+<div class="mwrap" id="mwrap" onclick="if(event.target===this)closeModD()">
+  <div class="modal">
+    <div id="mImgZone"></div>
+    <div class="mbody">
+      <div class="mhead"><div><div class="mtitle" id="mTitle"></div><div class="msub" id="mSub"></div></div><button class="mclose" onclick="closeModD()">✕</button></div>
+      <div class="mdesc" id="mDesc"></div>
+      <div class="mspecs" id="mSpecs"></div>
+    </div>
+    <div class="mtags" id="mTags"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
