@@ -518,7 +518,51 @@ function initTypewriter() {
     setTimeout(() => descEl.classList.add('vis'), 200);
     setTimeout(() => badgeEl.classList.add('vis'), 700);
   }));
-}
+}  
+
+/* ============================================================
+   Formulaire de Contact
+============================================================ */
+
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("my-form");
+    const status = document.getElementById("fok");
+
+    if (form) {
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault(); // Empêche la redirection vers Formspree
+            
+            const data = new FormData(event.target);
+
+            try {
+                const response = await fetch(event.target.action, {
+                    method: form.method,
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // 1. Affiche le message de succès
+                    status.style.display = "block";
+                    
+                    // 2. RÉINITIALISE le formulaire (vide les champs)
+                    form.reset();
+
+                    // 3. Optionnel : Cache le message après 5 secondes
+                    setTimeout(() => {
+                        status.style.display = "none";
+                    }, 5000);
+                } else {
+                    alert("Oups ! Un problème est survenu.");
+                }
+            } catch (error) {
+                alert("Erreur de connexion.");
+            }
+        });
+    }
+});
 
 /* ============================================================
    AVATAR ROTATIF
