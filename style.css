@@ -86,6 +86,22 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--txt
 .page { display: none; } .page.active { display: block; }
 
 /* ── HERO ── */
+/* --- AJOUT DE LA BANNIÈRE UNIQUE --- */
+/* Nous ciblons la classe '.hero-section' que l'on voit dans ton code */
+
+.hero, .hero-section {
+    /* 1. Chemin vérifié vers ton dossier photos */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), url('photos/imgfondblanc.png');
+    
+    /* 2. Réglages pour que l'image soit bien visible */
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    
+    /* 3. On s'assure qu'il y a une hauteur minimale pour voir l'image */
+    min-height: 400px; 
+}
+
 .hero { padding: 0; border-bottom: .5px solid var(--ligne); position: relative; overflow: hidden; }
 #sunCanvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 .hero-inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 50px 40px 40px; display: flex; align-items: center; gap: 48px; }.avatar-col { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
@@ -122,8 +138,8 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--txt
 .caret { display: inline-block; width: 2px; height: 20px; background: var(--or); vertical-align: middle; margin-left: 2px; animation: blink .7s step-end infinite; border-radius: 1px; }
 .caret.hide { display: none; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-.hero-title { color: var(--or); font-size: 11px; letter-spacing: 1px; margin-bottom: 7px; min-height: 15px; }
-.hero-desc { color: var(--txt2); font-size: 12px; line-height: 1.75; max-width: 580px; opacity: 0; transition: opacity .6s; }
+.hero-title { color: var(--bg3); font-size: 23px;font-weight: bold; letter-spacing: 1px; margin-bottom: 7px; min-height: 15px; }
+.hero-desc { color: var(--txt); font-size: 13px; line-height: 1.75; max-width: 580px; opacity: 0; transition: opacity .6s; }
 .hero-desc.vis { opacity: 1; }
 .hero-badge { display: inline-flex; align-items: center; gap: 5px; background: #0f0f05; border: 1px solid rgba(201,168,76,.3); border-radius: 20px; padding: 3px 12px; margin-top: 8px; opacity: 0; transition: opacity .6s; }
 .hero-badge.vis { opacity: 1; }
