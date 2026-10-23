@@ -175,12 +175,13 @@ const PARCOURS = {
     {date:"09/2018 – 11/2018", co:"LACTOCOL",               role:"Collecteur de lait",   note:"Tire palette · Ampli-roll"}
   ]},
   personnes: { label:"Transport de personnes", items:[
-    {date:"01/2026 → aujourd'hui", co:"Deutsche Bahn · Leverkusen", role:"Chauffeur de bus", active:true},
-    {date:"09/2025 – 11/2025",     co:"Deutsche Bahn · Brieselang", role:"Chauffeur de bus"},
-    {date:"06/2025 – 08/2025",     co:"ÉcoVista · Berlin–Hambourg", role:"Transport urbain"},
-    {date:"12/2024 – 04/2025",     co:"Transdev Savoie · Méribel",  role:"Conducteur urbain"},
-    {date:"05/2024 – 07/2024",     co:"Transport de l'Ain",         role:"Conducteur car scolaire"},
-    {date:"12/2023 – 04/2024",     co:"Transdev · Méribel",         role:"Conducteur urbain"}
+   {date:"04/06 → 24/008/2026",   co:"deu.Mobil · Passau",         role:"Chauffeur de bus", active:true},
+   {date:"05/01 → 03/06/2026",    co:"Deutsche Bahn · Leverkusen", role:"Chauffeur de bus", active:true},
+   {date:"09/2025 – 11/2025",     co:"Deutsche Bahn · Brieselang", role:"Chauffeur de bus"},
+   {date:"06/2025 – 08/2025",     co:"ÉcoVista · Berlin–Hambourg", role:"Transport urbain"},
+   {date:"12/2024 – 04/2025",     co:"Transdev Savoie · Méribel",  role:"Conducteur urbain"},
+   {date:"05/2024 – 07/2024",     co:"Transport de l'Ain",         role:"Conducteur car scolaire"},
+   {date:"12/2023 – 04/2024",     co:"Transdev · Méribel",         role:"Conducteur urbain"}
   ]}
 };
 
